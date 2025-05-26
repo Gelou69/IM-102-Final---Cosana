@@ -207,88 +207,84 @@
       background: #f1f1f1;
       border-radius: 12px;
     }
-    .message-item.sent,
-    .message-item.received {
-      max-width: 80%;
-      width: fit-content;
-      word-wrap: break-word;
-    }
+  .message-item.sent,
+.message-item.received {
+  max-width: 80%;
+  width: fit-content;
+  word-wrap: break-word;
+}
 
-    /* Retain alignment and styling */
-    .message-item.sent {
-      background: #e0e7ff;
-      margin-left: auto;
-      text-align: right;
-      border-top-right-radius: 0;
-    }
+/* Retain alignment and styling */
+.message-item.sent {
+  background: #e0e7ff;
+  margin-left: auto;
+  text-align: right;
+  border-top-right-radius: 0;
+}
 
-    .message-item.received {
-      background: #f3f0ff;
-      margin-right: auto;
-      text-align: left;
-      border-top-left-radius: 0;
-    }
+.message-item.received {
+  background: #f3f0ff;
+  margin-right: auto;
+  text-align: left;
+  border-top-left-radius: 0;
+}
 
-    .recent-chats-section {
-        margin-bottom: 2rem;
-    }
+.recent-chats-section {
+    margin-bottom: 2rem;
+  }
 
-  
+  .recent-chats-list {
+    max-height: 140px;
+    overflow-y: auto;
+    background: #f0f0ff;
+    border-radius: 12px;
+    padding: 0.5rem;
+    box-shadow: inset 0 0 8px rgba(102, 126, 234, 0.2);
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .recent-chats-list {
-      max-height: 140px;
-      overflow-y: auto;
-      background: #f0f0ff;
-      border-radius: 12px;
-      padding: 0.5rem;
-      box-shadow: inset 0 0 8px rgba(102, 126, 234, 0.2);
-      border: 1px solid #ccc;
-      display: flex;
-      flex-direction: column;
-    }
+  .chat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    background: white;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+    transition: background-color 0.2s ease;
+  }
+  .chat-item:hover {
+    background-color: #dbe2ff;
+  }
 
-    .chat-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.6rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      background: white;
-      margin-bottom: 0.5rem;
-      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
-      transition: background-color 0.2s ease;
-    }
-    .chat-item:hover {
-      background-color: #dbe2ff;
-    }
+  .chat-item.active {
+    background-color: #a2aaff;
+    color: white;
+  }
 
-    .chat-item.active {
-      background-color: #a2aaff;
-      color: white;
-    }
+  .chat-username {
+    font-weight: 600;
+    user-select: none;
+    /* Allow username to take up available space */
+    flex-grow: 1; 
+  }
 
-    .chat-username {
-      font-weight: 600;
-      user-select: none;
-      flex-grow: 1;
-    }
-
-    /* Adjusted unread-badge styling */
-    .unread-badge {
-      background: none; /* No background for this style */
-      color: red; /* Make the text red */
-      font-weight: bold; /* Make it bold */
-      font-size: 0.9rem; /* Slightly smaller than username, but visible */
-      padding: 0; /* No padding needed for just text */
-      margin-left: 5px; /* Small margin from username */
-      display: inline-block; /* Ensure it respects margins */
-      vertical-align: middle; /* Align with text */
-      line-height: 1; /* Helps with vertical alignment */
-      border-radius: 0; /* No border-radius for this style */
-      min-width: unset; /* Remove min-width, it's just text */
-      text-align: left; /* Align text left within its narrow box */
-    }
+  .unread-badge {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    margin-left: 8px; /* Add margin-left for spacing */
+    font-size: 0.75rem;
+    vertical-align: middle;
+    min-width: 22px; /* Ensure a minimum width for single digits */
+    text-align: center; /* Center the number */
+    display: inline-block; /* Treat as block for width/height */
+  }
 
   </style>
 </head>
@@ -312,10 +308,10 @@
         <option value="">-- Select a user to message --</option>
       </select>
     </div>
-    <div class="recent-chats-section">
-      <h3>Recent Chats</h3>
-      <div id="recentChatsList" class="recent-chats-list"></div>
-    </div>
+<div class="recent-chats-section">
+  <h3>Recent Chats</h3>
+  <div id="recentChatsList" class="recent-chats-list"></div>
+</div>
 
     <div class="message-section">
       <h3>Messages</h3>
@@ -333,7 +329,7 @@
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  // Initialize Supabase
+ // Initialize Supabase
   const supabaseUrl = 'https://tjmaegohzduvalgreqan.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqbWFlZ29oemR1dmFsZ3JlcWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDc1MDUsImV4cCI6MjA2MzU4MzUwNX0.DBZBXfJg0Wudqw7o6q0GLIaZDcpyVWFFgjuXjeJj65c';
   const supabase = createClient(supabaseUrl, supabaseKey);
@@ -517,6 +513,7 @@
 
     messageContentInput.value = '';
     await fetchMessages();
+    // No need to reload recent chats here for the sender, as their unread count isn't affected.
     showStatus('Message sent!');
   }
 
@@ -550,15 +547,22 @@
       usernameSpan.textContent = user.username;
       chatItem.appendChild(usernameSpan);
 
-      // Call updateUnreadBadge to handle initial display
-      updateUnreadBadge(user.id, user.unread_count);
+      // Create or update badge based on the loaded unread_count
+      if (user.unread_count > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'unread-badge';
+        badge.textContent = user.unread_count;
+        chatItem.appendChild(badge);
+      }
 
       chatItem.addEventListener('click', async () => {
         selectedUserId = parseInt(chatItem.dataset.userid, 10);
         userSelect.value = selectedUserId;
+        // Remove active class from all chat items
         document.querySelectorAll('.chat-item').forEach(item => {
           item.classList.remove('active');
         });
+        // Add active class to the clicked chat item
         chatItem.classList.add('active');
         await fetchMessages();
         await markMessagesRead(selectedUserId);
@@ -578,12 +582,13 @@
       .update({ is_read: true })
       .eq('sender_id', fromUserId)
       .eq('receiver_id', currentUserId)
-      .eq('is_read', false);
+      .eq('is_read', false); // Only mark unread messages as read
 
     if (error) {
       console.error('Failed to mark messages read:', error);
     } else {
-      updateUnreadBadge(fromUserId, 0); // Set count to 0 directly, which will remove the badge
+      // After marking messages as read, update the badge to 0 or remove it
+      updateUnreadBadge(fromUserId, 0); // Set count to 0 directly
     }
   }
 
@@ -594,6 +599,7 @@
 
   userSelect.addEventListener('change', (e) => {
     selectedUserId = e.target.value ? parseInt(e.target.value, 10) : null;
+    // Deselect any active chat item
     document.querySelectorAll('.chat-item').forEach(item => {
       item.classList.remove('active');
     });
@@ -602,32 +608,29 @@
 
   sendMessageBtn.addEventListener('click', sendMessage);
 
+  // Function to update the unread badge for a specific user
+  // This now takes the 'newCount' directly rather than an increment
   function updateUnreadBadge(userId, newCount) {
     const chatItem = recentChatsList.querySelector(`[data-userid="${userId}"]`);
     if (chatItem) {
-      // Find the existing badge within this specific chatItem
       let badge = chatItem.querySelector('.unread-badge');
 
       if (newCount > 0) {
         if (!badge) {
-          // If no badge exists, create it
           badge = document.createElement('span');
           badge.className = 'unread-badge';
           const usernameSpan = chatItem.querySelector('.chat-username');
-          // Insert badge after the username span
+          // Insert badge after username or at the end if username not found
           if (usernameSpan) {
             usernameSpan.after(badge);
           } else {
-            // Fallback if usernameSpan isn't found (shouldn't happen with current structure)
             chatItem.appendChild(badge);
           }
         }
-        // Set the text content to "+[newCount]"
-        badge.textContent = `+${newCount}`;
+        badge.textContent = newCount;
       } else {
-        // If newCount is 0 or less, remove the badge if it exists
         if (badge) {
-          badge.remove();
+          badge.remove(); // Remove badge if count is 0
         }
       }
     } else {
@@ -637,24 +640,30 @@
     }
   }
 
+  // Initialize and subscribe to real-time messages
   async function initializeMessaging() {
     currentUser = await getCurrentUser();
     if (currentUser) {
       searchUsers('');
       await loadRecentChats();
 
+      // Subscribe to inserts in the 'messages' table
       supabase
-        .channel('public:messages')
+        .channel('public:messages') // Use a specific channel name if desired, or 'messages'
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, async payload => {
           const newMessage = payload.new;
+          // Check if the new message is for the current user and is from another user
           if (newMessage.receiver_id === currentUser.id && newMessage.sender_id !== currentUser.id) {
+            // If the sender of the new message is currently selected, fetch messages to display it
             if (newMessage.sender_id === selectedUserId) {
               await fetchMessages();
-              await markMessagesRead(selectedUserId);
+              await markMessagesRead(selectedUserId); // Mark as read since it's actively viewed
             } else {
-              const { count, error } = await supabase
+              // Otherwise, increment the unread count for the sender
+              // Re-fetch the unread count from the database to ensure accuracy
+              const { data, error } = await supabase
                 .from('messages')
-                .select('*', { count: 'exact', head: true }) // Use head: true for count only
+                .select('count')
                 .eq('sender_id', newMessage.sender_id)
                 .eq('receiver_id', currentUser.id)
                 .eq('is_read', false);
@@ -664,7 +673,7 @@
                 return;
               }
 
-              const newUnreadCount = count || 0; // The count is directly available
+              const newUnreadCount = data[0]?.count || 0;
               updateUnreadBadge(newMessage.sender_id, newUnreadCount);
             }
           }
@@ -673,7 +682,7 @@
     }
   }
 
-  initializeMessaging();
+  initializeMessaging(); // Call the initialization function
 </script>
 </body>
 </html>
