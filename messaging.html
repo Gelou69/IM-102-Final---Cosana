@@ -1,688 +1,1084 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Messaging</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ChatPulse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    body {
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #333;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
-    .container {
-      background: #fff;
-      max-width: 650px;
-      width: 90%;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      padding: 2rem 2.5rem 3rem;
-      position: relative;
-    }
+    <style>
+        /* Base Styles & Typography */
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden; /* Prevent scrollbar from body */
+        }
 
-    /* Back icon top-left */
-    .back-icon {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      color: #667eea;
-      font-weight: 600;
-      font-size: 1rem;
-      user-select: none;
-      transition: color 0.3s ease;
-      text-decoration: none;
-    }
-    .back-icon:hover {
-      color: #764ba2;
-    }
-    .back-icon svg {
-      width: 22px;
-      height: 22px;
-      margin-right: 8px;
-      stroke: currentColor;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
+        .container-custom { /* Renamed to avoid conflict with Bootstrap's .container */
+            background: #fff;
+            max-width: 700px;
+            width: 95%;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18);
+            padding: 2.5rem 3rem 3.5rem;
+            position: relative;
+            transform: translateY(0);
+            opacity: 1;
+            animation: fadeInScale 0.6s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+        }
 
-    h2 {
-      text-align: center;
-      color: #4a4a4a;
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-      font-size: 2rem;
-      user-select: none;
-    }
+        /* Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
-    .search-section,
-    .message-section,
-    .send-section {
-      margin-bottom: 2rem;
-    }
+        @keyframes pulseShadow {
+            0% { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18); }
+            50% { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25); }
+            100% { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18); }
+        }
 
-    label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #555;
-      user-select: none;
-    }
+        .container-custom:hover {
+            animation: pulseShadow 2s infinite ease-in-out;
+        }
 
-    input[type="text"], select, textarea {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      border-radius: 12px;
-      border: 1.8px solid #ddd;
-      transition: border-color 0.3s ease;
-      font-family: inherit;
-      box-sizing: border-box;
-      outline-offset: 2px;
-    }
-    input[type="text"]:focus, select:focus, textarea:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
-    }
+        /* Back Icon */
+        .back-icon {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1rem;
+            user-select: none;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .back-icon:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+        .back-icon .material-symbols-outlined {
+            font-size: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
 
-    select {
-      cursor: pointer;
-      appearance: none;
-      background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%236677ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>') no-repeat right 16px center / 20px 20px;
-      padding-right: 2.5rem;
-    }
+        /* Heading */
+        h2 {
+            text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            font-size: 2.2rem;
+            user-select: none;
+            letter-spacing: -0.5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
 
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-      font-size: 1rem;
-    }
+        h3 {
+            color: #555;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+        }
+        h3 .material-symbols-outlined {
+            font-size: 20px;
+            color: #764ba2;
+        }
 
-    button {
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      border: none;
-      border-radius: 14px;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      font-weight: 700;
-      font-size: 1.1rem;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.4s ease;
-      box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
-      user-select: none;
-    }
-    button:hover {
-      background: linear-gradient(90deg, #5a6bdc, #633f91);
-      box-shadow: 0 12px 20px rgba(99, 63, 145, 0.4);
-    }
+        /* Labels */
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.6rem;
+            color: #555;
+            user-select: none;
+            font-size: 0.95rem;
+            display: flex; /* Make label a flex container for icon */
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+        }
+        label .material-symbols-outlined {
+            font-size: 18px;
+            color: #667eea;
+        }
 
-    .messages-list {
-      max-height: 320px;
-      overflow-y: auto;
-      background: #f9f9ff;
-      border-radius: 12px;
-      padding: 1rem;
-      box-shadow: inset 0 0 10px rgba(118, 75, 162, 0.1);
-      border: 1px solid #ddd;
-      font-size: 1rem;
-    }
-    .message-item {
-      padding: 0.8rem 1rem;
-      border-radius: 14px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-      transition: background 0.3s ease;
-    }
-    .message-item:last-child {
-      margin-bottom: 0;
-    }
 
-    /* Sender vs Receiver message colors */
-    .message-header {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #764ba2;
-      margin-bottom: 0.3rem;
-      user-select: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        /* Inputs & Selects - using .form-control for Bootstrap base */
+        .form-control-custom { /* Custom class to apply specific styles */
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            font-size: 1rem;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease-in-out;
+            font-family: inherit;
+            box-sizing: border-box;
+            outline: none;
+            background-color: #fcfcfc;
+            /* Override Bootstrap's default focus styles */
+            box-shadow: none !important;
+        }
+        .form-control-custom:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 12px rgba(102, 126, 234, 0.4) !important; /* Re-apply custom shadow */
+            background-color: #fff;
+        }
+        /* Specific overrides for select to handle custom arrow */
+        .form-select-custom {
+            cursor: pointer;
+            appearance: none;
+            background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%236677ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>') no-repeat right 16px center / 20px 20px;
+            padding-right: 2.8rem;
+        }
+        /* Override Bootstrap's custom select arrow */
+        .form-select-custom {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%236677ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>') !important;
+            background-position: right 1rem center !important;
+            background-size: 20px 20px !important;
+        }
 
-    .message-content {
-      margin: 0;
-      font-size: 1rem;
-      color: #444;
-      white-space: pre-wrap;
-      user-select: text;
-    }
+        textarea.form-control-custom {
+            min-height: 120px;
+            line-height: 1.6;
+            resize: vertical;
+        }
 
-    .reply-info {
-      font-size: 0.8rem;
-      color: #a58fdc;
-      margin-bottom: 0.3rem;
-      font-style: italic;
-      user-select: none;
-    }
+        /* Buttons - Reusing Bootstrap's .btn but applying custom styles */
+        .btn-custom {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            padding: 0.9rem 1.8rem;
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.35);
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+            /* Override Bootstrap's default button styles */
+            --bs-btn-color: white;
+            --bs-btn-bg: transparent; /* Make background transparent to show gradient */
+            --bs-btn-border-color: transparent;
+            --bs-btn-hover-color: white;
+            --bs-btn-hover-bg: transparent;
+            --bs-btn-hover-border-color: transparent;
+            --bs-btn-active-color: white;
+            --bs-btn-active-bg: transparent;
+            --bs-btn-active-border-color: transparent;
+            --bs-btn-disabled-color: rgba(255, 255, 255, 0.7);
+            --bs-btn-disabled-bg: rgba(102, 126, 234, 0.5); /* Faded gradient */
+            --bs-btn-disabled-border-color: transparent;
+        }
+        .btn-custom:hover {
+            background: linear-gradient(90deg, #5a6bdc, #633f91);
+            box-shadow: 0 15px 25px rgba(99, 63, 145, 0.45);
+            transform: translateY(-3px);
+        }
+        .btn-custom:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 10px rgba(102, 126, 234, 0.2);
+            background: linear-gradient(90deg, #5a6bdc, #633f91); /* Keep hover gradient on active */
+        }
+        .btn-custom .material-symbols-outlined {
+            font-size: 22px;
+        }
 
-    #statusMessage {
-      text-align: center;
-      margin-top: 0.5rem;
-      font-weight: 600;
-      font-size: 1rem;
-      user-select: none;
-      min-height: 1.2em;
-      transition: color 0.3s ease;
-    }
-    .error {
-      color: #e63946;
-    }
-    .success {
-      color: #2a9d8f;
-    }
+        /* Messages List */
+        .messages-list {
+            max-height: 380px;
+            overflow-y: auto;
+            background: #f9f9ff;
+            border-radius: 18px;
+            padding: 1.2rem;
+            box-shadow: inset 0 0 12px rgba(118, 75, 162, 0.15);
+            border: 1px solid #e0e0e0;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .message-item {
+            padding: 0.9rem 1.2rem;
+            border-radius: 16px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            max-width: 85%;
+            word-wrap: break-word;
+            animation: slideInMessage 0.4s ease-out forwards;
+        }
+        .message-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+        }
 
-    /* Scrollbar styling */
-    .messages-list::-webkit-scrollbar {
-      width: 8px;
-    }
-    .messages-list::-webkit-scrollbar-thumb {
-      background: #764ba2;
-      border-radius: 12px;
-    }
-    .messages-list::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 12px;
-    }
-  .message-item.sent,
-.message-item.received {
-  max-width: 80%;
-  width: fit-content;
-  word-wrap: break-word;
-}
+        @keyframes slideInMessage {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-/* Retain alignment and styling */
-.message-item.sent {
-  background: #e0e7ff;
-  margin-left: auto;
-  text-align: right;
-  border-top-right-radius: 0;
-}
+        .message-item.sent {
+            background: linear-gradient(45deg, #e0e7ff, #ccd5ff);
+            margin-left: auto;
+            text-align: right;
+            border-bottom-right-radius: 4px;
+            transform-origin: right center;
+        }
 
-.message-item.received {
-  background: #f3f0ff;
-  margin-right: auto;
-  text-align: left;
-  border-top-left-radius: 0;
-}
+        .message-item.received {
+            background: linear-gradient(45deg, #f3f0ff, #e9e0ff);
+            margin-right: auto;
+            text-align: left;
+            border-bottom-left-radius: 4px;
+            transform-origin: left center;
+        }
 
-.recent-chats-section {
-    margin-bottom: 2rem;
-  }
+        .message-header {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #764ba2;
+            margin-bottom: 0.4rem;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .message-header small {
+            color: #888;
+            font-size: 0.75rem;
+        }
 
-  .recent-chats-list {
-    max-height: 140px;
-    overflow-y: auto;
-    background: #f0f0ff;
-    border-radius: 12px;
-    padding: 0.5rem;
-    box-shadow: inset 0 0 8px rgba(102, 126, 234, 0.2);
-    border: 1px solid #ccc;
-    display: flex;
-    flex-direction: column;
-  }
+        .message-content {
+            margin: 0;
+            font-size: 1rem;
+            color: #444;
+            white-space: pre-wrap;
+            user-select: text;
+        }
+        .message-attachment {
+            margin-top: 0.8rem;
+        }
+        .message-attachment img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        .message-attachment img:hover {
+            transform: scale(1.02);
+        }
+        .message-attachment a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s ease;
+        }
+        .message-attachment a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        .message-attachment a .material-symbols-outlined {
+            font-size: 18px;
+        }
 
-  .chat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
-    cursor: pointer;
-    background: white;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
-    transition: background-color 0.2s ease;
-  }
-  .chat-item:hover {
-    background-color: #dbe2ff;
-  }
+        .reply-info {
+            font-size: 0.75rem;
+            color: #a58fdc;
+            margin-bottom: 0.3rem;
+            font-style: italic;
+            user-select: none;
+            border-left: 3px solid #764ba2;
+            padding-left: 8px;
+            margin-top: 0.5rem;
+        }
 
-  .chat-item.active {
-    background-color: #a2aaff;
-    color: white;
-  }
+        #statusMessage {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            user-select: none;
+            min-height: 1.5em;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 0.8rem;
+            border-radius: 12px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            /* Override Bootstrap's .alert styles */
+            border: 1px solid transparent !important;
+            background-color: transparent !important;
+            color: inherit !important;
+        }
+        .error {
+            color: #e63946;
+            background-color: #ffeaea;
+            border: 1px solid #e63946 !important;
+        }
+        .success {
+            color: #2a9d8f;
+            background-color: #e6fff7;
+            border: 1px solid #2a9d8f !important;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-  .chat-username {
-    font-weight: 600;
-    user-select: none;
-    /* Allow username to take up available space */
-    flex-grow: 1; 
-  }
+        /* Scrollbar styling */
+        .messages-list::-webkit-scrollbar,
+        .recent-chats-list::-webkit-scrollbar {
+            width: 8px;
+            border-radius: 10px;
+        }
+        .messages-list::-webkit-scrollbar-thumb,
+        .recent-chats-list::-webkit-scrollbar-thumb {
+            background: #764ba2;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+        .messages-list::-webkit-scrollbar-thumb:hover,
+        .recent-chats-list::-webkit-scrollbar-thumb:hover {
+            background: #6a3e90;
+        }
+        .messages-list::-webkit-scrollbar-track,
+        .recent-chats-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
 
-  .unread-badge {
-    background: red;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 7px;
-    margin-left: 8px; /* Add margin-left for spacing */
-    font-size: 0.75rem;
-    vertical-align: middle;
-    min-width: 22px; /* Ensure a minimum width for single digits */
-    text-align: center; /* Center the number */
-    display: inline-block; /* Treat as block for width/height */
-  }
+        /* Recent Chats Section */
+        .recent-chats-list {
+            max-height: 160px;
+            overflow-y: auto;
+            background: #f0f0ff;
+            border-radius: 18px;
+            padding: 1rem;
+            box-shadow: inset 0 0 10px rgba(102, 126, 234, 0.1);
+            border: 1px solid #d0d0e0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
 
-  </style>
+        .chat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            border-radius: 14px;
+            cursor: pointer;
+            background: white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+            transition: all 0.2s ease;
+            user-select: none;
+            position: relative;
+        }
+        .chat-item:hover {
+            background-color: #dbe2ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .chat-item.active {
+            background: linear-gradient(90deg, #a2aaff, #8c96ff);
+            color: white;
+            box-shadow: 0 5px 15px rgba(162, 170, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .chat-item.active .chat-username,
+        .chat-item.active .unread-badge {
+            color: white;
+        }
+        .chat-item.active .unread-badge {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-item.active::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 80%;
+            background-color: #fff;
+            border-radius: 3px;
+            animation: slideInLeft 0.3s ease-out forwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateY(-50%) translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(-50%) translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .chat-username {
+            font-weight: 600;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05rem;
+        }
+        .chat-username .material-symbols-outlined {
+            font-size: 20px;
+            color: #667eea;
+            transition: color 0.2s ease;
+        }
+        .chat-item.active .chat-username .material-symbols-outlined {
+            color: white;
+        }
+
+        .unread-badge {
+            background: #ff6b6b;
+            color: white;
+            border-radius: 12px;
+            padding: 3px 8px;
+            margin-left: 10px;
+            font-size: 0.8rem;
+            min-width: 25px;
+            text-align: center;
+            display: inline-block;
+            font-weight: 700;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Responsive adjustments (Bootstrap takes care of much of this, but custom tweaks are here) */
+        @media (max-width: 768px) {
+            .container-custom {
+                padding: 1.5rem 2rem 2.5rem;
+                width: 95%;
+            }
+            .back-icon {
+                top: 15px;
+                left: 15px;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .form-control-custom, .btn-custom { /* Apply to custom classes */
+                padding: 0.7rem 1rem;
+                font-size: 0.95rem;
+            }
+            .btn-custom .material-symbols-outlined {
+                font-size: 20px;
+            }
+            .messages-list {
+                max-height: 300px;
+                padding: 0.8rem;
+            }
+            .message-item {
+                padding: 0.7rem 1rem;
+            }
+            .recent-chats-list {
+                max-height: 120px;
+                padding: 0.7rem;
+            }
+            .chat-item {
+                padding: 0.7rem 1rem;
+            }
+            .chat-username {
+                font-size: 0.95rem;
+            }
+            .unread-badge {
+                padding: 2px 6px;
+                font-size: 0.7rem;
+                min-width: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <a href="profile.html" class="back-icon" title="Back to Profile">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-      Back
-    </a>
+    <div class="container-custom">
+        <a href="profile.html" class="back-icon" title="Back to Profile">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back
+        </a>
 
-    <h2>Messaging</h2>
-
-
-    <div class="search-section">
-      <label for="searchUser">Search Users by Username:</label>
-      <input type="text" id="searchUser" placeholder="Enter username to search" autocomplete="off" />
-      <select id="userSelect" aria-label="Select user to message">
-        <option value="">-- Select a user to message --</option>
-      </select>
-    </div>
-<div class="recent-chats-section">
-  <h3>Recent Chats</h3>
-  <div id="recentChatsList" class="recent-chats-list"></div>
-</div>
-
-    <div class="message-section">
-      <h3>Messages</h3>
-      <div class="messages-list" id="messagesList" aria-live="polite" aria-relevant="additions"></div>
-    </div>
-
-    <div class="send-section">
-      <label for="messageContent">Write your message:</label>
-      <textarea id="messageContent" placeholder="Type your message here..." aria-multiline="true"></textarea>
-      <button id="sendMessageBtn" type="button" aria-label="Send message">Send Message</button>
-    </div>
-
-    <div id="statusMessage" role="alert" aria-live="assertive"></div>
-  </div>
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
- // Initialize Supabase
-  const supabaseUrl = 'https://tjmaegohzduvalgreqan.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqbWFlZ29oemR1dmFsZ3JlcWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDc1MDUsImV4cCI6MjA2MzU4MzUwNX0.DBZBXfJg0Wudqw7o6q0GLIaZDcpyVWFFgjuXjeJj65c';
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const searchUserInput = document.getElementById('searchUser');
-  const userSelect = document.getElementById('userSelect');
-  const messagesList = document.getElementById('messagesList');
-  const messageContentInput = document.getElementById('messageContent');
-  const sendMessageBtn = document.getElementById('sendMessageBtn');
-  const statusMessage = document.getElementById('statusMessage');
-  const recentChatsList = document.getElementById('recentChatsList');
-
-  let currentUser = null;
-  let selectedUserId = null;
-
-  function showStatus(text, isError = false) {
-    statusMessage.textContent = text;
-    statusMessage.className = isError ? 'error' : 'success';
-    if (!isError) {
-      setTimeout(() => {
-        statusMessage.textContent = '';
-        statusMessage.className = '';
-      }, 3000);
-    }
-  }
-
-  async function getCurrentUser() {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error || !session) {
-      alert('You must be logged in to use messaging.');
-      window.location.href = 'login.html';
-      return null;
-    }
-    const { data: userData, error: userError } = await supabase
-      .from('users')
-      .select('id, fullname, username, email')
-      .eq('email', session.user.email)
-      .single();
-
-    if (userError || !userData) {
-      alert('Error fetching user profile.');
-      window.location.href = 'login.html';
-      return null;
-    }
-    return userData;
-  }
-
-  async function searchUsers(username) {
-    if (!username) {
-      userSelect.innerHTML = `<option value="">-- Select a user to message --</option>`;
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from('users')
-      .select('id, username')
-      .ilike('username', username + '%')
-      .limit(10);
-
-    if (error) {
-      showStatus('Error loading users.', true);
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      userSelect.innerHTML = `<option value="">No users found</option>`;
-      return;
-    }
-
-    userSelect.innerHTML = `<option value="">-- Select a user to message --</option>`;
-    data.forEach(user => {
-      if (currentUser && user.id !== currentUser.id) {
-        const option = document.createElement('option');
-        option.value = user.id;
-        option.textContent = user.username;
-        userSelect.appendChild(option);
-      }
-    });
-  }
-
-  async function fetchMessages() {
-    if (!selectedUserId) {
-      messagesList.innerHTML = '<p>Select a user to see messages.</p>';
-      return;
-    }
-    if (!currentUser) {
-      messagesList.innerHTML = '<p>Loading user info...</p>';
-      return;
-    }
-
-    const senderId = parseInt(currentUser.id, 10);
-    const receiverId = parseInt(selectedUserId, 10);
-
-    const { data, error } = await supabase
-      .from('messages')
-      .select(`
-        id,
-        content,
-        created_at,
-        sender:sender_id (id, username),
-        receiver:receiver_id (id, username),
-        reply_to
-      `)
-      .or(`and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`)
-      .order('created_at', { ascending: true });
-
-    if (error) {
-      messagesList.innerHTML = `<p class="error">Error loading messages.</p>`;
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      messagesList.innerHTML = '<p>No messages yet. Start the conversation!</p>';
-      return;
-    }
-
-    messagesList.innerHTML = '';
-    data.forEach(msg => {
-      const div = document.createElement('div');
-      const isSender = msg.sender?.id === senderId;
-      div.className = `message-item ${isSender ? 'sent' : 'received'}`;
-
-      const senderName = isSender ? 'You' : (msg.sender?.username || 'Unknown');
-      const content = msg.content || '';
-      const date = new Date(msg.created_at).toLocaleString();
-
-      let replyText = '';
-      if (msg.reply_to) {
-        replyText = `<div class="reply-info">Replying to message #${msg.reply_to}</div>`;
-      }
-
-      div.innerHTML = `
-        <div class="message-header">
-          <span>${senderName}</span>
-          <small>${date}</small>
+        <h2 class="mb-4">ChatPulse Messenger</h2> <div class="mb-4"> <label for="searchUser" class="form-label">
+                <span class="material-symbols-outlined">person_search</span> Search Users:
+            </label>
+            <input type="text" id="searchUser" class="form-control form-control-custom" placeholder="Find users by username" autocomplete="off" />
+            <select id="userSelect" class="form-select form-control-custom form-select-custom mt-2" aria-label="Select user to message"> <option value="">-- Select a user to message --</option>
+            </select>
         </div>
-        ${replyText}
-        <p class="message-content">${content}</p>
-      `;
-      messagesList.appendChild(div);
-    });
 
-    messagesList.scrollTop = messagesList.scrollHeight;
-  }
+        <div class="mb-4">
+            <h3><span class="material-symbols-outlined">chat</span> Recent Conversations</h3>
+            <div id="recentChatsList" class="recent-chats-list">
+                </div>
+        </div>
 
-  async function sendMessage() {
-    if (!currentUser) {
-      alert('User data not loaded. Please refresh the page.');
-      return;
-    }
+        <div class="mb-4">
+            <h3><span class="material-symbols-outlined">forum</span> Messages</h3>
+            <div class="messages-list" id="messagesList" aria-live="polite" aria-relevant="additions">
+                <p class="text-center text-muted p-3">Select a chat to view messages.</p> </div>
+        </div>
 
-    const content = messageContentInput.value.trim();
-    if (!content) {
-      alert('Please enter a message.');
-      return;
-    }
-    if (!selectedUserId) {
-      alert('Please select a user to send a message.');
-      return;
-    }
+        <div class="mb-4">
+            <label for="messageContent" class="form-label">
+                <span class="material-symbols-outlined">edit_note</span> Compose Message:
+            </label>
+            <textarea id="messageContent" class="form-control form-control-custom" placeholder="Type your message here..." aria-multiline="true"></textarea>
+            <button id="sendMessageBtn" type="button" class="btn btn-custom" aria-label="Send text message">
+                <span class="material-symbols-outlined">send</span> Send Message
+            </button>
+        </div>
 
-    const senderId = parseInt(currentUser.id, 10);
-    const receiverId = parseInt(selectedUserId, 10);
+        <div class="mb-4">
+            <label for="fileInput" class="form-label">
+                <span class="material-symbols-outlined">attach_file</span> Attach File/Image:
+            </label>
+            <input type="file" id="fileInput" class="form-control form-control-custom" aria-label="Attach file or image">
+            <button id="sendFileBtn" type="button" class="btn btn-custom" aria-label="Send file">
+                <span class="material-symbols-outlined">upload_file</span> Send File
+            </button>
+        </div>
 
-    const { data, error } = await supabase
-      .from('messages')
-      .insert([
-        {
-          sender_id: senderId,
-          receiver_id: receiverId,
-          content,
-          created_at: new Date().toISOString(),
-          is_read: false // Mark as unread by default when sent
+        <div id="statusMessage" role="alert" aria-live="assertive"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eBQRxaxMGaKHzW8O" crossorigin="anonymous"></script>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+       const supabaseUrl = 'https://tjmaegohzduvalgreqan.supabase.co'
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqbWFlZ29oemR1dmFsZ3JlcWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDc1MDUsImV4cCI6MjA2MzU4MzUwNX0.DBZBXfJg0Wudqw7o6q0GLIaZDcpyVWFFgjuXjeJj65c'
+  const supabase = createClient(supabaseUrl, supabaseKey)
+
+        const searchUserInput = document.getElementById('searchUser');
+        const userSelect = document.getElementById('userSelect');
+        const messagesList = document.getElementById('messagesList');
+        const messageContentInput = document.getElementById('messageContent');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const recentChatsList = document.getElementById('recentChatsList');
+        const fileInput = document.getElementById('fileInput');
+        const sendFileBtn = document.getElementById('sendFileBtn');
+
+        let currentUser = null;
+        let selectedUserId = null;
+
+        function showStatus(text, isError = false) {
+            statusMessage.textContent = text;
+            statusMessage.className = `statusMessage ${isError ? 'error' : 'success'}`;
+            // Force reflow to restart animation
+            statusMessage.style.animation = 'none';
+            void statusMessage.offsetWidth;
+            statusMessage.style.animation = 'fadeIn 0.5s forwards';
+
+            if (!isError) {
+                setTimeout(() => {
+                    statusMessage.style.animation = 'none'; // Clear animation
+                    statusMessage.textContent = '';
+                    statusMessage.className = '';
+                }, 3000);
+            }
         }
-      ]);
 
-    if (error) {
-      showStatus('Failed to send message.', true);
-      return;
-    }
+        async function getCurrentUser() {
+            const {
+                data: { session },
+                error,
+            } = await supabase.auth.getSession();
+            if (error || !session) {
+                alert('You must be logged in to use messaging.');
+                window.location.href = 'login.html';
+                return null;
+            }
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('id, fullname, username, email')
+                .eq('email', session.user.email)
+                .single();
 
-    messageContentInput.value = '';
-    await fetchMessages();
-    // No need to reload recent chats here for the sender, as their unread count isn't affected.
-    showStatus('Message sent!');
-  }
-
-  async function loadRecentChats() {
-    if (!currentUser) return;
-
-    const currentUserId = parseInt(currentUser.id, 10);
-
-    const { data, error } = await supabase
-      .rpc('get_recent_chats', { current_user_id: currentUserId });
-
-    if (error) {
-      recentChatsList.innerHTML = `<p class="error">Failed to load recent chats: ${error.message}</p>`;
-      console.error('Failed to load recent chats:', error);
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      recentChatsList.innerHTML = '<p>No recent chats found.</p>';
-      return;
-    }
-
-    recentChatsList.innerHTML = '';
-    data.forEach(user => {
-      const chatItem = document.createElement('div');
-      chatItem.className = 'chat-item';
-      chatItem.dataset.userid = user.id;
-
-      const usernameSpan = document.createElement('span');
-      usernameSpan.className = 'chat-username';
-      usernameSpan.textContent = user.username;
-      chatItem.appendChild(usernameSpan);
-
-      // Create or update badge based on the loaded unread_count
-      if (user.unread_count > 0) {
-        const badge = document.createElement('span');
-        badge.className = 'unread-badge';
-        badge.textContent = user.unread_count;
-        chatItem.appendChild(badge);
-      }
-
-      chatItem.addEventListener('click', async () => {
-        selectedUserId = parseInt(chatItem.dataset.userid, 10);
-        userSelect.value = selectedUserId;
-        // Remove active class from all chat items
-        document.querySelectorAll('.chat-item').forEach(item => {
-          item.classList.remove('active');
-        });
-        // Add active class to the clicked chat item
-        chatItem.classList.add('active');
-        await fetchMessages();
-        await markMessagesRead(selectedUserId);
-      });
-
-      recentChatsList.appendChild(chatItem);
-    });
-  }
-
-  async function markMessagesRead(fromUserId) {
-    if (!currentUser || !fromUserId) return;
-
-    const currentUserId = parseInt(currentUser.id, 10);
-
-    const { error } = await supabase
-      .from('messages')
-      .update({ is_read: true })
-      .eq('sender_id', fromUserId)
-      .eq('receiver_id', currentUserId)
-      .eq('is_read', false); // Only mark unread messages as read
-
-    if (error) {
-      console.error('Failed to mark messages read:', error);
-    } else {
-      // After marking messages as read, update the badge to 0 or remove it
-      updateUnreadBadge(fromUserId, 0); // Set count to 0 directly
-    }
-  }
-
-  searchUserInput.addEventListener('input', (e) => {
-    const val = e.target.value.trim();
-    searchUsers(val);
-  });
-
-  userSelect.addEventListener('change', (e) => {
-    selectedUserId = e.target.value ? parseInt(e.target.value, 10) : null;
-    // Deselect any active chat item
-    document.querySelectorAll('.chat-item').forEach(item => {
-      item.classList.remove('active');
-    });
-    fetchMessages();
-  });
-
-  sendMessageBtn.addEventListener('click', sendMessage);
-
-  // Function to update the unread badge for a specific user
-  // This now takes the 'newCount' directly rather than an increment
-  function updateUnreadBadge(userId, newCount) {
-    const chatItem = recentChatsList.querySelector(`[data-userid="${userId}"]`);
-    if (chatItem) {
-      let badge = chatItem.querySelector('.unread-badge');
-
-      if (newCount > 0) {
-        if (!badge) {
-          badge = document.createElement('span');
-          badge.className = 'unread-badge';
-          const usernameSpan = chatItem.querySelector('.chat-username');
-          // Insert badge after username or at the end if username not found
-          if (usernameSpan) {
-            usernameSpan.after(badge);
-          } else {
-            chatItem.appendChild(badge);
-          }
+            if (userError || !userData) {
+                alert('Error fetching user profile.');
+                window.location.href = 'login.html';
+                return null;
+            }
+            return userData;
         }
-        badge.textContent = newCount;
-      } else {
-        if (badge) {
-          badge.remove(); // Remove badge if count is 0
+
+        async function searchUsers(username) {
+            if (!username) {
+                userSelect.innerHTML = `<option value="">-- Select a user to message --</option>`;
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('users')
+                .select('id, username')
+                .ilike('username', username + '%')
+                .limit(10);
+
+            if (error) {
+                showStatus('Error loading users.', true);
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                userSelect.innerHTML = `<option value="">No users found</option>`;
+                return;
+            }
+
+            userSelect.innerHTML = `<option value="">-- Select a user to message --</option>`;
+            data.forEach((user) => {
+                if (currentUser && user.id !== currentUser.id) {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.textContent = user.username;
+                    userSelect.appendChild(option);
+                }
+            });
         }
-      }
-    } else {
-      // If the chat item doesn't exist (e.g., first message from a new contact),
-      // reload recent chats to ensure it appears with its correct unread count.
-      loadRecentChats();
-    }
-  }
 
-  // Initialize and subscribe to real-time messages
-  async function initializeMessaging() {
-    currentUser = await getCurrentUser();
-    if (currentUser) {
-      searchUsers('');
-      await loadRecentChats();
+        async function fetchMessages() {
+            if (!selectedUserId) {
+                messagesList.innerHTML = '<p class="text-center text-muted p-3">Select a user to see messages.</p>';
+                return;
+            }
+            if (!currentUser) {
+                messagesList.innerHTML = '<p class="text-center text-muted p-3">Loading user info...</p>';
+                return;
+            }
 
-      // Subscribe to inserts in the 'messages' table
-      supabase
-        .channel('public:messages') // Use a specific channel name if desired, or 'messages'
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, async payload => {
-          const newMessage = payload.new;
-          // Check if the new message is for the current user and is from another user
-          if (newMessage.receiver_id === currentUser.id && newMessage.sender_id !== currentUser.id) {
-            // If the sender of the new message is currently selected, fetch messages to display it
-            if (newMessage.sender_id === selectedUserId) {
-              await fetchMessages();
-              await markMessagesRead(selectedUserId); // Mark as read since it's actively viewed
-            } else {
-              // Otherwise, increment the unread count for the sender
-              // Re-fetch the unread count from the database to ensure accuracy
-              const { data, error } = await supabase
+            const senderId = parseInt(currentUser.id, 10);
+            const receiverId = parseInt(selectedUserId, 10);
+
+            // Set current chat as active in recent chats list
+            document.querySelectorAll('.chat-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const activeChatItem = document.querySelector(`.chat-item[data-userid="${selectedUserId}"]`);
+            if (activeChatItem) {
+                activeChatItem.classList.add('active');
+            }
+
+
+            const { data, error } = await supabase
                 .from('messages')
-                .select('count')
-                .eq('sender_id', newMessage.sender_id)
+                .select(`
+                    id,
+                    content,
+                    created_at,
+                    sender:sender_id (id, username),
+                    receiver:receiver_id (id, username),
+                    reply_to,
+                    message_attachments (file_url, file_type)
+                `)
+                .or(
+                    `and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`
+                )
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                messagesList.innerHTML = `<p class="error text-center">Error loading messages: ${error.message}</p>`;
+                console.error('Error fetching messages:', error);
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                messagesList.innerHTML = '<p class="text-center text-muted p-3">No messages yet. Start the conversation!</p>';
+                return;
+            }
+
+            messagesList.innerHTML = '';
+            data.forEach((msg) => {
+                const div = document.createElement('div');
+                const isSender = msg.sender?.id === senderId;
+                div.className = `message-item ${isSender ? 'sent' : 'received'}`;
+
+                const senderName = isSender ? 'You' : msg.sender?.username || 'Unknown';
+                const date = new Date(msg.created_at).toLocaleString();
+
+                let replyText = '';
+                if (msg.reply_to) {
+                    replyText = `<div class="reply-info">Replying to message #${msg.reply_to}</div>`;
+                }
+
+                let messageContentHtml = `<p class="message-content">${msg.content || ''}</p>`;
+                if (msg.message_attachments && msg.message_attachments.length > 0) {
+                    msg.message_attachments.forEach((attachment) => {
+                        if (attachment.file_type && attachment.file_type.startsWith('image/')) {
+                            messageContentHtml += `<div class="message-attachment"><img src="${attachment.file_url}" alt="Attached Image"></div>`;
+                        } else {
+                            const fileName = attachment.file_url.substring(attachment.file_url.lastIndexOf('/') + 1);
+                            messageContentHtml += `<div class="message-attachment"><a href="${attachment.file_url}" target="_blank" download="${fileName}"><span class="material-symbols-outlined">download</span> Download ${fileName}</a></div>`;
+                        }
+                    });
+                }
+
+                div.innerHTML = `
+                    <div class="message-header">
+                        <span>${senderName}</span>
+                        <small>${date}</small>
+                    </div>
+                    ${replyText}
+                    ${messageContentHtml}
+                `;
+                messagesList.appendChild(div);
+            });
+
+            messagesList.scrollTop = messagesList.scrollHeight;
+            markMessagesAsRead(receiverId); // Mark messages as read when viewed
+        }
+
+        async function sendMessage() {
+            if (!currentUser) {
+                showStatus('User data not loaded. Please refresh the page.', true);
+                return;
+            }
+
+            const content = messageContentInput.value.trim();
+            if (!content) {
+                showStatus('Please enter a message.', true);
+                return;
+            }
+            if (!selectedUserId) {
+                showStatus('Please select a user to send a message.', true);
+                return;
+            }
+
+            const senderId = parseInt(currentUser.id, 10);
+            const receiverId = parseInt(selectedUserId, 10);
+
+            const { data, error } = await supabase
+                .from('messages')
+                .insert([
+                    {
+                        sender_id: senderId,
+                        receiver_id: receiverId,
+                        content,
+                        created_at: new Date().toISOString(),
+                        is_read: false,
+                    },
+                ])
+                .select('id')
+                .single();
+
+            if (error) {
+                showStatus('Failed to send message: ' + error.message, true);
+                console.error('Error sending message:', error);
+                return;
+            }
+
+            messageContentInput.value = '';
+            await fetchMessages();
+            await fetchRecentChats(); // Update recent chats after sending
+            showStatus('Message sent!');
+        }
+
+        async function sendFile() {
+            if (!currentUser) {
+                showStatus('User data not loaded. Please refresh the page.', true);
+                return;
+            }
+
+            if (!selectedUserId) {
+                showStatus('Please select a user to send a file.', true);
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (!file) {
+                showStatus('Please select a file to send.', true);
+                return;
+            }
+
+            showStatus('Uploading file...', false);
+
+            const senderId = parseInt(currentUser.id, 10);
+            const receiverId = parseInt(selectedUserId, 10);
+
+            // 1. Insert placeholder message
+            const { data: messageData, error: messageError } = await supabase
+                .from('messages')
+                .insert([
+                    {
+                        sender_id: senderId,
+                        receiver_id: receiverId,
+                        content: `(File: ${file.name})`,
+                        created_at: new Date().toISOString(),
+                        is_read: false,
+                    },
+                ])
+                .select('id')
+                .single();
+
+            if (messageError) {
+                showStatus('Failed to create message entry for file: ' + messageError.message, true);
+                console.error('Error creating message entry for file:', messageError);
+                return;
+            }
+
+            const messageId = messageData.id;
+
+            // 2. Upload file to Supabase Storage
+            const fileExtension = file.name.split('.').pop();
+            const uniqueFileName = `msg_${messageId}_${Date.now()}.${fileExtension}`;
+            const bucketName = 'message-attachments'; // Make sure this bucket exists
+
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from(bucketName)
+                .upload(uniqueFileName, file);
+
+            if (uploadError) {
+                showStatus('File upload failed: ' + uploadError.message, true);
+                console.error('File upload error:', uploadError);
+                // Optional: Delete the message row you just created if upload fails
+                return;
+            }
+
+            // 3. Get public URL of uploaded file
+            const { data: publicUrlData, error: publicUrlError } = supabase.storage
+                .from(bucketName)
+                .getPublicUrl(uniqueFileName);
+
+            if (publicUrlError) {
+                showStatus('Failed to get public URL: ' + publicUrlError.message, true);
+                console.error('Public URL error:', publicUrlError);
+                return;
+            }
+
+            const publicUrl = publicUrlData.publicUrl;
+
+            // 4. Insert attachment record linked to the message
+            const { error: attachmentError } = await supabase
+                .from('message_attachments')
+                .insert([
+                    {
+                        messages_id: messageId, // matches your DB column name (plural 'messages_id')
+                        file_url: publicUrl,
+                        file_type: file.type,
+                        uploaded_at: new Date().toISOString(),
+                    },
+                ]);
+
+            if (attachmentError) {
+                showStatus('Failed to save attachment info: ' + attachmentError.message, true);
+                console.error('Attachment insert error:', attachmentError);
+                return;
+            }
+
+            showStatus('File sent successfully!');
+            fileInput.value = '';
+            await fetchMessages();
+            await fetchRecentChats(); // Update recent chats after sending
+        }
+
+        function subscribeToNewMessages() {
+            supabase
+                .channel('public:messages')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'messages' },
+                    (payload) => {
+                        if (
+                            currentUser &&
+                            selectedUserId &&
+                            (payload.new.sender_id === currentUser.id || payload.new.receiver_id === currentUser.id)
+                        ) {
+                            // Fetch messages if relevant to current user conversation
+                            fetchMessages();
+                        }
+                        // Always update recent chats and badge on new message for any conversation
+                        fetchRecentChats();
+                    }
+                )
+                .subscribe();
+        }
+
+        async function fetchRecentChats() {
+            if (!currentUser) return;
+
+            const userId = parseInt(currentUser.id, 10);
+
+            // Get recent conversations where current user is sender or receiver, ordered by last message time
+            const { data, error } = await supabase
+                .from('messages')
+                .select('sender_id, receiver_id, created_at')
+                .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error fetching recent chats:', error);
+                return;
+            }
+
+            const recentConversations = new Map(); // Maps partnerId to latest message time
+            data.forEach((msg) => {
+                const partnerId = msg.sender_id === userId ? msg.receiver_id : msg.sender_id;
+                if (!recentConversations.has(partnerId) || new Date(msg.created_at) > new Date(recentConversations.get(partnerId).created_at)) {
+                    recentConversations.set(partnerId, msg);
+                }
+            });
+
+            const partnerIds = Array.from(recentConversations.keys());
+
+            if (partnerIds.length === 0) {
+                recentChatsList.innerHTML = '<p class="text-center text-muted p-3">No recent chats</p>';
+                return;
+            }
+
+            // Fetch partner user info
+            const { data: users, error: usersError } = await supabase
+                .from('users')
+                .select('id, username')
+                .in('id', partnerIds);
+
+            if (usersError) {
+                console.error('Error fetching chat users:', usersError);
+                return;
+            }
+
+            recentChatsList.innerHTML = '';
+            for (const user of users) {
+                const div = document.createElement('div');
+                div.className = 'chat-item';
+                div.dataset.userid = user.id;
+
+                const unreadCount = await getUnreadMessageCount(user.id);
+                const isActive = (selectedUserId && parseInt(selectedUserId, 10) === user.id) ? ' active' : '';
+                div.className = `chat-item${isActive}`;
+
+                div.innerHTML = `
+                    <span class="chat-username">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        ${user.username}
+                    </span>
+                    <span class="unread-badge">${unreadCount > 0 ? unreadCount : ''}</span>
+                `;
+
+                div.addEventListener('click', () => {
+                    if (selectedUserId !== user.id) { // Only re-fetch if different user is selected
+                        selectedUserId = user.id;
+                        fetchMessages();
+                        // Update active class immediately on click
+                        document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+                        div.classList.add('active');
+                    }
+                });
+                recentChatsList.appendChild(div);
+            }
+        }
+
+        async function getUnreadMessageCount(senderId) {
+            if (!currentUser) return 0;
+            const { count, error } = await supabase
+                .from('messages')
+                .select('id', { count: 'exact' })
+                .eq('sender_id', senderId)
                 .eq('receiver_id', currentUser.id)
                 .eq('is_read', false);
 
-              if (error) {
+            if (error) {
                 console.error('Error fetching unread count:', error);
-                return;
-              }
-
-              const newUnreadCount = data[0]?.count || 0;
-              updateUnreadBadge(newMessage.sender_id, newUnreadCount);
+                return 0;
             }
-          }
-        })
-        .subscribe();
-    }
-  }
+            return count || 0;
+        }
 
-  initializeMessaging(); // Call the initialization function
-</script>
+        async function markMessagesAsRead(senderId) {
+            if (!currentUser || !senderId) return;
+
+            const { error } = await supabase
+                .from('messages')
+                .update({ is_read: true })
+                .eq('sender_id', senderId)
+                .eq('receiver_id', currentUser.id)
+                .eq('is_read', false);
+
+            if (error) {
+                console.error('Error marking messages as read:', error);
+            } else {
+                // Update the badge immediately after marking as read
+                const badge = document.querySelector(`.chat-item[data-userid="${senderId}"] .unread-badge`);
+                if (badge) {
+                    badge.textContent = '';
+                }
+            }
+        }
+
+        // Event Listeners
+        searchUserInput.addEventListener('input', (e) => {
+            searchUsers(e.target.value.trim());
+        });
+
+        userSelect.addEventListener('change', (e) => {
+            selectedUserId = e.target.value;
+            fetchMessages();
+        });
+
+        sendMessageBtn.addEventListener('click', sendMessage);
+        sendFileBtn.addEventListener('click', sendFile);
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            currentUser = await getCurrentUser();
+            if (currentUser) {
+                await fetchRecentChats();
+                subscribeToNewMessages();
+                // Optionally select the first recent chat if any
+                if (recentChatsList.firstElementChild && recentChatsList.firstElementChild.dataset.userid) {
+                    selectedUserId = recentChatsList.firstElementChild.dataset.userid;
+                    await fetchMessages();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
