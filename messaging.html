@@ -11,20 +11,21 @@
 
     <style>
         /* Base Styles & Typography */
-        body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #333;
-            overflow: hidden; /* Prevent scrollbar from body */
-        }
+       body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    overflow-y: auto; 
+}
 
-        .container-custom { /* Renamed to avoid conflict with Bootstrap's .container */
+
+        .container-custom {
             background: #fff;
             max-width: 700px;
             width: 95%;
@@ -203,7 +204,7 @@
             --bs-btn-active-bg: transparent;
             --bs-btn-active-border-color: transparent;
             --bs-btn-disabled-color: rgba(255, 255, 255, 0.7);
-            --bs-btn-disabled-bg: rgba(102, 126, 234, 0.5); /* Faded gradient */
+            --bs-btn-disabled-bg: rgba(102, 126, 234, 0.5); 
             --bs-btn-disabled-border-color: transparent;
         }
         .btn-custom:hover {
@@ -214,7 +215,7 @@
         .btn-custom:active {
             transform: translateY(0);
             box-shadow: 0 5px 10px rgba(102, 126, 234, 0.2);
-            background: linear-gradient(90deg, #5a6bdc, #633f91); /* Keep hover gradient on active */
+            background: linear-gradient(90deg, #5a6bdc, #633f91); 
         }
         .btn-custom .material-symbols-outlined {
             font-size: 22px;
@@ -616,14 +617,14 @@
         function showStatus(text, isError = false) {
             statusMessage.textContent = text;
             statusMessage.className = `statusMessage ${isError ? 'error' : 'success'}`;
-            // Force reflow to restart animation
+           
             statusMessage.style.animation = 'none';
             void statusMessage.offsetWidth;
             statusMessage.style.animation = 'fadeIn 0.5s forwards';
 
             if (!isError) {
                 setTimeout(() => {
-                    statusMessage.style.animation = 'none'; // Clear animation
+                    statusMessage.style.animation = 'none'; 
                     statusMessage.textContent = '';
                     statusMessage.className = '';
                 }, 3000);
@@ -700,7 +701,7 @@
             const senderId = parseInt(currentUser.id, 10);
             const receiverId = parseInt(selectedUserId, 10);
 
-            // Set current chat as active in recent chats list
+          
             document.querySelectorAll('.chat-item').forEach(item => {
                 item.classList.remove('active');
             });
@@ -775,7 +776,7 @@
             });
 
             messagesList.scrollTop = messagesList.scrollHeight;
-            markMessagesAsRead(receiverId); // Mark messages as read when viewed
+            markMessagesAsRead(receiverId); 
         }
 
         async function sendMessage() {
@@ -819,7 +820,7 @@
 
             messageContentInput.value = '';
             await fetchMessages();
-            await fetchRecentChats(); // Update recent chats after sending
+            await fetchRecentChats(); 
             showStatus('Message sent!');
         }
 
@@ -845,7 +846,7 @@
             const senderId = parseInt(currentUser.id, 10);
             const receiverId = parseInt(selectedUserId, 10);
 
-            // 1. Insert placeholder message
+         
             const { data: messageData, error: messageError } = await supabase
                 .from('messages')
                 .insert([
@@ -868,10 +869,10 @@
 
             const messageId = messageData.id;
 
-            // 2. Upload file to Supabase Storage
+           
             const fileExtension = file.name.split('.').pop();
             const uniqueFileName = `msg_${messageId}_${Date.now()}.${fileExtension}`;
-            const bucketName = 'message-attachments'; // Make sure this bucket exists
+            const bucketName = 'message-attachments'; 
 
             const { data: uploadData, error: uploadError } = await supabase.storage
                 .from(bucketName)
@@ -880,11 +881,11 @@
             if (uploadError) {
                 showStatus('File upload failed: ' + uploadError.message, true);
                 console.error('File upload error:', uploadError);
-                // Optional: Delete the message row you just created if upload fails
+            
                 return;
             }
 
-            // 3. Get public URL of uploaded file
+          
             const { data: publicUrlData, error: publicUrlError } = supabase.storage
                 .from(bucketName)
                 .getPublicUrl(uniqueFileName);
@@ -897,12 +898,12 @@
 
             const publicUrl = publicUrlData.publicUrl;
 
-            // 4. Insert attachment record linked to the message
+       
             const { error: attachmentError } = await supabase
                 .from('message_attachments')
                 .insert([
                     {
-                        messages_id: messageId, // matches your DB column name (plural 'messages_id')
+                        messages_id: messageId, 
                         file_url: publicUrl,
                         file_type: file.type,
                         uploaded_at: new Date().toISOString(),
@@ -918,7 +919,7 @@
             showStatus('File sent successfully!');
             fileInput.value = '';
             await fetchMessages();
-            await fetchRecentChats(); // Update recent chats after sending
+            await fetchRecentChats(); 
         }
 
         function subscribeToNewMessages() {
@@ -933,10 +934,10 @@
                             selectedUserId &&
                             (payload.new.sender_id === currentUser.id || payload.new.receiver_id === currentUser.id)
                         ) {
-                            // Fetch messages if relevant to current user conversation
+                    
                             fetchMessages();
                         }
-                        // Always update recent chats and badge on new message for any conversation
+                 
                         fetchRecentChats();
                     }
                 )
@@ -948,7 +949,7 @@
 
             const userId = parseInt(currentUser.id, 10);
 
-            // Get recent conversations where current user is sender or receiver, ordered by last message time
+            
             const { data, error } = await supabase
                 .from('messages')
                 .select('sender_id, receiver_id, created_at')
@@ -960,7 +961,7 @@
                 return;
             }
 
-            const recentConversations = new Map(); // Maps partnerId to latest message time
+            const recentConversations = new Map(); 
             data.forEach((msg) => {
                 const partnerId = msg.sender_id === userId ? msg.receiver_id : msg.sender_id;
                 if (!recentConversations.has(partnerId) || new Date(msg.created_at) > new Date(recentConversations.get(partnerId).created_at)) {
@@ -975,7 +976,7 @@
                 return;
             }
 
-            // Fetch partner user info
+          
             const { data: users, error: usersError } = await supabase
                 .from('users')
                 .select('id, username')
@@ -1005,10 +1006,10 @@
                 `;
 
                 div.addEventListener('click', () => {
-                    if (selectedUserId !== user.id) { // Only re-fetch if different user is selected
+                    if (selectedUserId !== user.id) { 
                         selectedUserId = user.id;
                         fetchMessages();
-                        // Update active class immediately on click
+                      
                         document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
                         div.classList.add('active');
                     }
@@ -1046,7 +1047,7 @@
             if (error) {
                 console.error('Error marking messages as read:', error);
             } else {
-                // Update the badge immediately after marking as read
+               
                 const badge = document.querySelector(`.chat-item[data-userid="${senderId}"] .unread-badge`);
                 if (badge) {
                     badge.textContent = '';
@@ -1054,7 +1055,7 @@
             }
         }
 
-        // Event Listeners
+        
         searchUserInput.addEventListener('input', (e) => {
             searchUsers(e.target.value.trim());
         });
@@ -1072,7 +1073,7 @@
             if (currentUser) {
                 await fetchRecentChats();
                 subscribeToNewMessages();
-                // Optionally select the first recent chat if any
+               
                 if (recentChatsList.firstElementChild && recentChatsList.firstElementChild.dataset.userid) {
                     selectedUserId = recentChatsList.firstElementChild.dataset.userid;
                     await fetchMessages();
