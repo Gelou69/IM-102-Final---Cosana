@@ -57,7 +57,7 @@
             margin: 0 18px;
             cursor: pointer;
             transition: color 0.3s ease, transform 0.2s ease;
-            position: relative; 
+            position: relative;
         }
         .navbar-icon:hover,
         .navbar-icon:focus {
@@ -66,7 +66,7 @@
             outline: none;
         }
 
-        
+
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -80,7 +80,7 @@
             min-width: 18px;
             text-align: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            display: none; 
+            display: none;
         }
 
         .navbar-brand {
@@ -91,7 +91,7 @@
             letter-spacing: -0.5px;
         }
 
-      
+
         .dropdown {
             position: relative;
             display: inline-block;
@@ -106,7 +106,7 @@
             z-index: 1;
             border-radius: 8px;
             right: 0;
-            top: 45px; 
+            top: 45px;
             overflow: hidden;
             opacity: 0;
             transform: translateY(-10px);
@@ -136,11 +136,11 @@
             outline: none;
         }
 
-       
+
         .profile-container {
             background: var(--bg-white);
-            width: 95%; 
-            max-width: 450px; 
+            width: 95%;
+            max-width: 450px;
             border-radius: 15px;
             box-shadow: 0 15px 35px var(--shadow-light);
             margin-top: 30px;
@@ -150,20 +150,20 @@
             font-size: 15px;
         }
 
-    
+
         .background-banner {
             width: 100%;
             height: 160px;
-            background-color: #d1e7fd; 
+            background-color: #d1e7fd;
             background-position: center;
             background-size: cover;
             position: relative;
             display: flex;
             align-items: flex-end;
-            justify-content: flex-end; 
+            justify-content: flex-end;
         }
 
-      
+
         .bg-upload-label {
             position: absolute;
             right: 15px;
@@ -193,16 +193,16 @@
             display: none;
         }
 
-      
+
         .profile-image-wrapper {
             position: relative;
-            margin-top: -60px; 
-            width: 130px; 
+            margin-top: -60px;
+            width: 130px;
             height: 130px;
             margin-left: auto;
             margin-right: auto;
             border-radius: 50%;
-            border: 6px solid var(--bg-white); 
+            border: 6px solid var(--bg-white);
             background-color: #cce5ff;
             background-position: center;
             background-size: cover;
@@ -213,7 +213,7 @@
             color: var(--text-light);
             font-size: 0.95rem;
             font-style: italic;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
 
@@ -250,7 +250,7 @@
         }
         .user-info h2 {
             margin: 0;
-            font-size: 28px; 
+            font-size: 28px;
             color: var(--text-dark);
             margin-bottom: 8px;
             font-weight: 700;
@@ -265,7 +265,7 @@
             margin-bottom: 0;
         }
 
-       
+
         .loading-text {
             color: var(--text-light);
             font-style: italic;
@@ -277,16 +277,16 @@
             to { opacity: 1; }
         }
 
-    
+
         .message {
             margin: 0 25px 25px 25px;
             font-weight: 600;
             text-align: center;
-            min-height: 20px; 
+            min-height: 20px;
             padding: 10px;
             border-radius: 8px;
             transition: all 0.3s ease-in-out;
-            opacity: 0; 
+            opacity: 0;
             transform: translateY(10px);
         }
         .message.show {
@@ -304,7 +304,208 @@
             border: 1px solid #2a9d8f;
         }
 
-   
+        /* --- Search Bar Styling --- */
+        .search-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 0 25px;
+            box-sizing: border-box;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 20px; /* Space between search and profile container */
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid var(--border-light);
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px var(--light-blue);
+        }
+
+        .search-bar .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-medium);
+            font-size: 1.1rem;
+        }
+
+        /* --- Search Results Styling --- */
+        .search-results-container {
+            width: 95%;
+            max-width: 450px;
+            background: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            padding: 15px;
+            margin-top: 10px; /* Adjust spacing from search bar */
+            max-height: 400px; /* Limit height for scrollability */
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+            border: 1px solid var(--border-light);
+        }
+
+        .search-results-container.show {
+            display: block;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background-color: var(--light-blue);
+            border-radius: 5px;
+        }
+
+        .search-result-item .profile-pic-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            background-size: cover;
+            background-position: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .search-result-item .user-details {
+            flex-grow: 1;
+        }
+
+        .search-result-item .user-details h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .search-result-item .user-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+
+        .search-result-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-result-actions button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .search-result-actions button:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-1px);
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--text-light);
+            padding: 20px;
+        }
+
+        /* --- View Other User Profile Styling --- */
+        .other-user-profile-container {
+            display: none; /* Hidden by default */
+            background: var(--bg-white);
+            width: 95%;
+            max-width: 450px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px var(--shadow-light);
+            margin-top: 30px;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .other-user-profile-container.show {
+            display: block;
+        }
+
+        .other-user-profile-container .background-banner {
+            height: 160px;
+            background-color: #d1e7fd;
+        }
+        .other-user-profile-container .profile-image-wrapper {
+            margin-top: -60px;
+            width: 130px;
+            height: 130px;
+        }
+        .other-user-profile-container .bg-upload-label,
+        .other-user-profile-container .profile-upload-label {
+            display: none; /* Hide upload buttons for other users' profiles */
+        }
+
+        .other-user-profile-container .user-info {
+            padding: 70px 25px 35px 25px;
+        }
+
+        .other-user-profile-actions {
+            padding-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .other-user-profile-actions button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .other-user-profile-actions button:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        .back-to-my-profile {
+            background-color: #6c757d;
+        }
+
+        .back-to-my-profile:hover {
+            background-color: #5a6268;
+        }
+
+
         @media (max-width: 500px) {
             .navbar {
                 padding: 10px 15px;
@@ -374,8 +575,17 @@
         </div>
     </nav>
 
-    <main class="profile-container" role="main" aria-label="User Profile">
+    <div class="search-container">
+        <div class="search-bar">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="userSearchInput" placeholder="Search for users..." aria-label="Search for users by username or full name">
+        </div>
+    </div>
 
+    <div class="search-results-container" id="searchResultsContainer">
+        </div>
+
+    <main class="profile-container" id="myProfileContainer" role="main" aria-label="My User Profile">
         <div class="background-banner" id="backgroundBanner" aria-label="Background Image Banner" aria-live="polite" aria-atomic="true">
             <label for="backgroundUpload" class="bg-upload-label" title="Change Background Picture" tabindex="0">
                 <i class="fas fa-camera"></i> Change Background
@@ -402,314 +612,546 @@
         <div class="message" id="message" role="alert" aria-live="assertive" aria-atomic="true"></div>
     </main>
 
-   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    <div class="other-user-profile-container" id="otherUserProfileContainer">
+        <div class="background-banner" id="otherUserBackgroundBanner">
+            </div>
 
-         const supabaseUrl = 'https://tjmaegohzduvalgreqan.supabase.co'
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqbWFlZ29oemR1dmFsZ3JlcWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDc1MDUsImV4cCI6MjA2MzU4MzUwNX0.DBZBXfJg0Wudqw7o6q0GLIaZDcpyVWFFgjuXjeJj65c'
-  const supabase = createClient(supabaseUrl, supabaseKey)
+        <div class="profile-image-wrapper" id="otherUserProfileImageWrapper">
+            <span class="profile-image-fallback-text">No Profile Picture</span>
+            </div>
 
-   
-    const fullnameEl = document.getElementById('fullname');
-    const usernameEl = document.getElementById('username');
-    const emailEl = document.getElementById('email');
-    const messageEl = document.getElementById('message');
+        <div class="user-info">
+            <h2 id="otherUserFullname"></h2>
+            <p>@<span id="otherUserUsername"></span></p>
+            <p id="otherUserEmail"></p>
+        </div>
 
-    const backgroundBanner = document.getElementById('backgroundBanner');
-    const profileImageWrapper = document.getElementById('profileImageWrapper');
+        <div class="other-user-profile-actions">
+            <button id="messageOtherUserBtn">Message</button>
+            <button id="backToMyProfileBtn" class="back-to-my-profile">Back to My Profile</button>
+        </div>
+    </div>
 
-    const backgroundUploadInput = document.getElementById('backgroundUpload');
-    const profileUploadInput = document.getElementById('profileUpload');
 
-    const messageNotificationBadge = document.getElementById('messageNotificationBadge');
-
-   
-    const settingsIcon = document.getElementById('settingsIcon');
-    const settingsDropdown = document.getElementById('settingsDropdown');
-
-    settingsIcon.addEventListener('click', () => {
-        const isShown = settingsDropdown.parentElement.classList.toggle('show');
-        settingsIcon.setAttribute('aria-expanded', isShown);
-        if (isShown) {
-            settingsDropdown.querySelector('a')?.focus();
-        }
-    });
-
-    settingsIcon.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            settingsIcon.click();
-        }
-        if (settingsDropdown.parentElement.classList.contains('show')) {
-            const focusableElements = Array.from(settingsDropdown.querySelectorAll('a[role="menuitem"]'));
-            const focusedIndex = focusableElements.indexOf(document.activeElement);
-
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (focusedIndex === -1 || focusedIndex === focusableElements.length - 1) {
-                    focusableElements[0].focus();
-                } else {
-                    focusableElements[focusedIndex + 1].focus();
-                }
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (focusedIndex === -1 || focusedIndex === 0) {
-                    focusableElements[focusableElements.length - 1].focus();
-                } else {
-                    focusableElements[focusedIndex - 1].focus();
-                }
-            } else if (e.key === 'Escape') {
-                    e.preventDefault();
-                    settingsDropdown.parentElement.classList.remove('show');
-                    settingsIcon.setAttribute('aria-expanded', 'false');
-                    settingsIcon.focus();
-                }
-            }
-        });
-
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  
+      const supabaseUrl = 'https://tjmaegohzduvalgreqan.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqbWFlZ29oemR1dmFsZ3JlcWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDc1MDUsImV4cCI6MjA2MzU4MzUwNX0.DBZBXfJg0Wudqw7o6q0GLIaZDcpyVWFFgjuXjeJj65c';
+      const supabase = createClient(supabaseUrl, supabaseKey);
+  
+      const fullnameEl = document.getElementById('fullname');
+      const usernameEl = document.getElementById('username');
+      const emailEl = document.getElementById('email');
+      const messageEl = document.getElementById('message');
+  
+      const backgroundBanner = document.getElementById('backgroundBanner');
+      const profileImageWrapper = document.getElementById('profileImageWrapper');
+  
+      const backgroundUploadInput = document.getElementById('backgroundUpload');
+      const profileUploadInput = document.getElementById('profileUpload');
+  
+      const messageNotificationBadge = document.getElementById('messageNotificationBadge');
+  
+      const settingsIcon = document.getElementById('settingsIcon');
+      const settingsDropdown = document.getElementById('settingsDropdown');
+      const dropdownLogoutButton = document.getElementById('dropdownLogout');
+  
+      // NEW: Search bar elements
+      const userSearchInput = document.getElementById('userSearchInput');
+      const searchResultsContainer = document.getElementById('searchResultsContainer');
+      const myProfileContainer = document.getElementById('myProfileContainer');
+      const otherUserProfileContainer = document.getElementById('otherUserProfileContainer');
+  
+      // NEW: Other user profile elements
+      const otherUserBackgroundBanner = document.getElementById('otherUserBackgroundBanner');
+      const otherUserProfileImageWrapper = document.getElementById('otherUserProfileImageWrapper');
+      const otherUserFullnameEl = document.getElementById('otherUserFullname');
+      const otherUserUsernameEl = document.getElementById('otherUserUsername');
+      const otherUserEmailEl = document.getElementById('otherUserEmail');
+      const messageOtherUserBtn = document.getElementById('messageOtherUserBtn');
+      const backToMyProfileBtn = document.getElementById('backToMyProfileBtn');
+  
+      let currentUserId = null; // To store the currently logged-in user's ID
+  
+      settingsIcon.addEventListener('click', () => {
+          const isShown = settingsDropdown.parentElement.classList.toggle('show');
+          settingsIcon.setAttribute('aria-expanded', isShown);
+          if (isShown) {
+              settingsDropdown.querySelector('a')?.focus();
+          }
+      });
+  
+      settingsIcon.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              settingsIcon.click();
+          }
+          if (settingsDropdown.parentElement.classList.contains('show')) {
+              const focusableElements = Array.from(settingsDropdown.querySelectorAll('a[role="menuitem"]'));
+              const focusedIndex = focusableElements.indexOf(document.activeElement);
+  
+              if (e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  if (focusedIndex === -1 || focusedIndex === focusableElements.length - 1) {
+                      focusableElements[0].focus();
+                  } else {
+                      focusableElements[focusedIndex + 1].focus();
+                  }
+              } else if (e.key === 'ArrowUp') {
+                  e.preventDefault();
+                  if (focusedIndex === -1 || focusedIndex === 0) {
+                      focusableElements[focusableElements.length - 1].focus();
+                  } else {
+                      focusableElements[focusedIndex - 1].focus();
+                  }
+              } else if (e.key === 'Escape') {
+                  e.preventDefault();
+                  settingsDropdown.parentElement.classList.remove('show');
+                  settingsIcon.setAttribute('aria-expanded', 'false');
+                  settingsIcon.focus();
+              }
+          }
+      });
+  
+  
+      window.addEventListener('click', (event) => {
+          if (!event.target.matches('#settingsIcon') && !event.target.closest('.dropdown')) {
+              const dropdowns = document.getElementsByClassName('dropdown-content');
+              for (let i = 0; i < dropdowns.length; i++) {
+                  const openDropdown = dropdowns[i];
+                  if (openDropdown.parentElement.classList.contains('show')) {
+                      openDropdown.parentElement.classList.remove('show');
+                      settingsIcon.setAttribute('aria-expanded', 'false');
+                  }
+              }
+          }
+          // NEW: Hide search results if clicked outside
+          if (!event.target.matches('#userSearchInput') && !event.target.closest('.search-results-container')) {
+              searchResultsContainer.classList.remove('show');
+          }
+      });
+  
+  
+      dropdownLogoutButton.addEventListener('click', async (e) => {
+          e.preventDefault();
+          const { error } = await supabase.auth.signOut();
+          if (error) {
+              showMessage('Error logging out: ' + error.message, 'error');
+          } else {
+              showMessage('Logged out successfully!', 'success');
+              localStorage.removeItem('profileImage');
+              localStorage.removeItem('backgroundImage');
+              setTimeout(() => {
+                  window.location.href = 'login.html';
+              }, 1500);
+          }
+      });
+  
+      // --- Helper Functions ---
+      function showMessage(text, type) {
+          messageEl.textContent = text;
+          messageEl.className = `message ${type} show`;
+          setTimeout(() => {
+              messageEl.classList.remove('show');
+              setTimeout(() => {
+                  messageEl.textContent = '';
+                  messageEl.className = 'message';
+              }, 300);
+          }, 3000);
+      }
+  
+      const PROFILE_BUCKET_NAME = 'profile-images';
+      async function uploadImageAndSaveUrl(file, imageType, userId) {
+          if (!userId) {
+              showMessage('User not authenticated for image upload.', 'error');
+              return;
+          }
+  
+          const fileName = `${imageType}-${userId}-${Date.now()}.${file.name.split('.').pop()}`;
+          const filePath = `${userId}/${fileName}`;
+  
+          showMessage(`Uploading ${imageType} image...`, 'success');
+  
+          try {
+              const { data: uploadData, error: uploadError } = await supabase.storage
+                  .from(PROFILE_BUCKET_NAME)
+                  .upload(filePath, file, {
+                      cacheControl: '3600',
+                      upsert: true
+                  });
+  
+              if (uploadError) {
+                  throw uploadError;
+              }
+  
+              const { data: publicUrlData } = supabase.storage
+                  .from(PROFILE_BUCKET_NAME)
+                  .getPublicUrl(filePath);
+  
+              const imageUrl = publicUrlData.publicUrl;
+  
+              const updateColumn = imageType === 'profile' ? 'profile_picture_url' : 'background_picture_url';
+              const { error: dbError } = await supabase
+                  .from('profile_images')
+                  .upsert(
+                      { id: userId, [updateColumn]: imageUrl },
+                      { onConflict: 'id', ignoreDuplicates: false }
+                  );
+  
+              if (dbError) {
+                  throw dbError;
+              }
+  
+              displayImage(imageType === 'profile' ? 'profileImage' : 'backgroundImage', imageUrl, 'my'); // 'my' indicates it's for the current user
+              showMessage(`${imageType} image updated successfully!`, 'success');
+  
+          } catch (error) {
+              console.error(`Error uploading ${imageType} image:`, error.message);
+              showMessage(`Error uploading ${imageType} image: ${error.message}`, 'error');
+          }
+      }
+  
+      // Helper: Display image from URL (modified to handle different target elements)
+      function displayImage(key, url, target = 'my') {
+          let wrapperElement;
+          let fallbackTextElement;
+  
+          if (target === 'my') {
+              wrapperElement = (key === 'profileImage') ? profileImageWrapper : backgroundBanner;
+              fallbackTextElement = profileImageWrapper.querySelector('.profile-image-fallback-text');
+          } else if (target === 'other') {
+              wrapperElement = (key === 'profileImage') ? otherUserProfileImageWrapper : otherUserBackgroundBanner;
+              fallbackTextElement = otherUserProfileImageWrapper.querySelector('.profile-image-fallback-text');
+          }
+  
+          if (url) {
+              wrapperElement.style.backgroundImage = `url(${url})`;
+              wrapperElement.style.backgroundSize = 'cover';
+              wrapperElement.style.backgroundPosition = 'center';
+              if (fallbackTextElement) {
+                  fallbackTextElement.style.display = 'none';
+              }
+          } else {
+              wrapperElement.style.backgroundImage = '';
+              if (fallbackTextElement) {
+                  fallbackTextElement.style.display = 'flex';
+              }
+          }
+      }
+  
+      // --- Image Upload Event Listeners ---
+      profileUploadInput.addEventListener('change', async (e) => {
+          const user = (await supabase.auth.getSession()).data.session?.user;
+          if (!user) {
+              showMessage('Please log in to upload images.', 'error');
+              return;
+          }
+  
+          if (e.target.files && e.target.files[0]) {
+              const file = e.target.files[0];
+              if (file.type.startsWith('image/')) {
+                  uploadImageAndSaveUrl(file, 'profile', user.id);
+              } else {
+                  showMessage('Please upload a valid image file (e.g., PNG, JPEG, GIF).', 'error');
+              }
+          }
+      });
+  
+      backgroundUploadInput.addEventListener('change', async (e) => {
+          const user = (await supabase.auth.getSession()).data.session?.user;
+          if (!user) {
+              showMessage('Please log in to upload images.', 'error');
+              return;
+          }
+  
+          if (e.target.files && e.target.files[0]) {
+              const file = e.target.files[0];
+              if (file.type.startsWith('image/')) {
+                  uploadImageAndSaveUrl(file, 'background', user.id);
+              } else {
+                  showMessage('Please upload a valid image file (e.g., PNG, JPEG, GIF).', 'error');
+              }
+          }
+      });
+  
+      // --- Notification Badge Functionality ---
+      function updateMessageNotifications(count) {
+          if (count > 0) {
+              messageNotificationBadge.textContent = count > 99 ? '99+' : count;
+              messageNotificationBadge.style.display = 'block';
+              messageNotificationBadge.setAttribute('aria-label', `${count} new messages`);
+          } else {
+              messageNotificationBadge.textContent = '';
+              messageNotificationBadge.style.display = 'none';
+              messageNotificationBadge.removeAttribute('aria-label');
+          }
+      }
+  
+      function simulateNewMessages() {
+          const randomMessageCount = Math.floor(Math.random() * 5); // 0 to 4 messages
+          updateMessageNotifications(randomMessageCount);
+      }
+  
       
-        window.addEventListener('click', (event) => {
-            if (!event.target.matches('#settingsIcon') && !event.target.closest('.dropdown')) {
-                const dropdowns = document.getElementsByClassName('dropdown-content');
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.parentElement.classList.contains('show')) {
-                        openDropdown.parentElement.classList.remove('show');
-                        settingsIcon.setAttribute('aria-expanded', 'false');
-                    }
-                }
-            }
-        });
+    
+  
+      let searchTimeout;
+      userSearchInput.addEventListener('input', () => {
+          clearTimeout(searchTimeout);
+          const query = userSearchInput.value.trim();
+  
+          if (query.length > 0) {
+              searchTimeout = setTimeout(() => searchUsers(query), 500); // Debounce search
+          } else {
+              searchResultsContainer.innerHTML = '';
+              searchResultsContainer.classList.remove('show');
+          }
+      });
+  
+      async function searchUsers(query) {
+          showMessage('Searching users...', 'success');
+          try {
+              const { data: users, error } = await supabase
+                  .from('users')
+                  .select('id, username, fullname')
+                  .or(`username.ilike.%${query}%,fullname.ilike.%${query}%`); // Case-insensitive search
+  
+              if (error) throw error;
+  
+              if (users.length > 0) {
+                  displaySearchResults(users);
+                  showMessage(`Found ${users.length} user(s).`, 'success');
+              } else {
+                  searchResultsContainer.innerHTML = '<div class="no-results">No users found.</div>';
+                  searchResultsContainer.classList.add('show');
+                  showMessage('No users found.', 'error');
+              }
+          } catch (error) {
+              console.error('Error searching users:', error.message);
+              showMessage('Error searching users: ' + error.message, 'error');
+              searchResultsContainer.innerHTML = '<div class="no-results">Error loading search results.</div>';
+              searchResultsContainer.classList.add('show');
+          }
+      }
+  
+      async function displaySearchResults(users) {
+          searchResultsContainer.innerHTML = ''; // Clear previous results
+          if (users.length === 0) {
+              searchResultsContainer.innerHTML = '<div class="no-results">No users found.</div>';
+              searchResultsContainer.classList.add('show');
+              return;
+          }
+  
+          for (const user of users) {
+              // Fetch profile image for each user
+              const { data: imageData, error: imageError } = await supabase
+                  .from('profile_images')
+                  .select('profile_picture_url')
+                  .eq('id', user.id)
+                  .single();
+  
+              const profilePicUrl = imageData?.profile_picture_url || '';
+  
+              const userItem = document.createElement('div');
+              userItem.classList.add('search-result-item');
+  
+              let profileImageHtml = '';
+              if (profilePicUrl) {
+                  profileImageHtml = `<div class="profile-pic-small" style="background-image: url('${profilePicUrl}')"></div>`;
+              } else {
+                  // Generate initials for fallback
+                  const initials = (user.fullname || user.username || 'NN').split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                  profileImageHtml = `
+                      <div class="profile-pic-small fallback-color" style="background-color: #a0a0a0; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2em; font-weight: bold;">
+                          ${initials}
+                      </div>
+                  `;
+              }
+  
+              userItem.innerHTML = `
+                  ${profileImageHtml}
+                  <div class="user-details">
+                      <h4>${user.fullname || 'No Name'}</h4>
+                      <p>@${user.username || 'unknown_user'}</p>
+                  </div>
+                  <div class="search-result-actions">
+                      <button class="view-profile-btn" data-user-id="${user.id}">View Profile</button>
+                      <button class="message-user-btn" data-user-id="${user.id}">Message</button>
+                  </div>
+              `;
+              searchResultsContainer.appendChild(userItem);
+  
+              // Add event listeners to the new buttons
+              userItem.querySelector('.view-profile-btn').addEventListener('click', () => viewOtherUserProfile(user.id));
+              userItem.querySelector('.message-user-btn').addEventListener('click', () => redirectToMessagePage(user.id));
+          }
+          searchResultsContainer.classList.add('show');
+      }
+  
 
-     
-        const dropdownLogoutButton = document.getElementById('dropdownLogout');
-        dropdownLogoutButton.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const { error } = await supabase.auth.signOut();
-            if (error) {
-                showMessage('Error logging out: ' + error.message, 'error');
-            } else {
-                showMessage('Logged out successfully!', 'success');
-              
-                localStorage.removeItem('profileImage');
-                localStorage.removeItem('backgroundImage');
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1500);
-            }
-        });
-
-        // --- Helper Functions ---
-
+  
+      async function viewOtherUserProfile(userId) {
+          // Hide current user's profile and search results
+          myProfileContainer.classList.remove('show');
+          myProfileContainer.style.display = 'none';
+          searchResultsContainer.classList.remove('show');
+          userSearchInput.value = ''; // Clear search bar
       
-        function showMessage(text, type) {
-            messageEl.textContent = text;
-            messageEl.className = `message ${type} show`; 
-            setTimeout(() => {
-                messageEl.classList.remove('show'); 
-                setTimeout(() => { 
-                    messageEl.textContent = '';
-                    messageEl.className = 'message';
-                }, 300); 
-            }, 3000);
-        }
-
+          // Show other user's profile container
+          otherUserProfileContainer.classList.add('show');
+          otherUserProfileContainer.style.display = 'block';
       
-
-        const PROFILE_BUCKET_NAME = 'profile-images'; 
-        async function uploadImageAndSaveUrl(file, imageType, userId) {
-            if (!userId) {
-                showMessage('User not authenticated for image upload.', 'error');
-                return;
-            }
-
-            const fileName = `${imageType}-${userId}-${Date.now()}.${file.name.split('.').pop()}`;
-            const filePath = `${userId}/${fileName}`; 
-
-            showMessage(`Uploading ${imageType} image...`, 'success');
-
-            try {
-
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from(PROFILE_BUCKET_NAME)
-                    .upload(filePath, file, {
-                        cacheControl: '3600',
-                        upsert: true 
-                    });
-
-                if (uploadError) {
-                    throw uploadError;
-                }
-
-               
-                const { data: publicUrlData } = supabase.storage
-                    .from(PROFILE_BUCKET_NAME)
-                    .getPublicUrl(filePath);
-
-                const imageUrl = publicUrlData.publicUrl;
-
-                const updateColumn = imageType === 'profile' ? 'profile_picture_url' : 'background_picture_url';
-                const { error: dbError } = await supabase
-                    .from('profile_images')
-                    .upsert(
-                        { id: userId, [updateColumn]: imageUrl },
-                        { onConflict: 'id', ignoreDuplicates: false } 
-                    );
-
-                if (dbError) {
-                    throw dbError;
-                }
-
-               
-                displayImage(imageType === 'profile' ? 'profileImage' : 'backgroundImage', imageUrl);
-                showMessage(`${imageType} image updated successfully!`, 'success');
-
-            } catch (error) {
-                console.error(`Error uploading ${imageType} image:`, error.message);
-                showMessage(`Error uploading ${imageType} image: ${error.message}`, 'error');
-            }
-        }
-
-        // Helper: Display image from URL
-        function displayImage(key, url) {
-            if (url) {
-                if (key === 'profileImage') {
-                    profileImageWrapper.style.backgroundImage = `url(${url})`;
-                    profileImageWrapper.querySelector('.profile-image-fallback-text').style.display = 'none';
-                } else if (key === 'backgroundImage') {
-                    backgroundBanner.style.backgroundImage = `url(${url})`;
-                }
-            } else {
-                // No saved image, clear style and show fallback text/default
-                if (key === 'profileImage') {
-                    profileImageWrapper.style.backgroundImage = '';
-                    profileImageWrapper.querySelector('.profile-image-fallback-text').style.display = 'flex';
-                } else if (key === 'backgroundImage') {
-                    backgroundBanner.style.backgroundImage = '';
-                }
-            }
-        }
-
-        // --- Image Upload Event Listeners (Modified) ---
-
-        profileUploadInput.addEventListener('change', async (e) => {
-            const user = (await supabase.auth.getSession()).data.session?.user;
-            if (!user) {
-                showMessage('Please log in to upload images.', 'error');
-                return;
-            }
-
-            if (e.target.files && e.target.files[0]) {
-                const file = e.target.files[0];
-                if (file.type.startsWith('image/')) {
-                    uploadImageAndSaveUrl(file, 'profile', user.id);
-                } else {
-                    showMessage('Please upload a valid image file (e.g., PNG, JPEG, GIF).', 'error');
-                }
-            }
-        });
-
-        backgroundUploadInput.addEventListener('change', async (e) => {
-            const user = (await supabase.auth.getSession()).data.session?.user;
-            if (!user) {
-                showMessage('Please log in to upload images.', 'error');
-                return;
-            }
-
-            if (e.target.files && e.target.files[0]) {
-                const file = e.target.files[0];
-                if (file.type.startsWith('image/')) {
-                    uploadImageAndSaveUrl(file, 'background', user.id);
-                } else {
-                    showMessage('Please upload a valid image file (e.g., PNG, JPEG, GIF).', 'error');
-                }
-            }
-        });
-
-        // --- Notification Badge Functionality (Keep existing code) ---
-        function updateMessageNotifications(count) {
-            if (count > 0) {
-                messageNotificationBadge.textContent = count > 99 ? '99+' : count; // Cap at 99+
-                messageNotificationBadge.style.display = 'block';
-                messageNotificationBadge.setAttribute('aria-label', `${count} new messages`);
-            } else {
-                messageNotificationBadge.textContent = '';
-                messageNotificationBadge.style.display = 'none';
-                messageNotificationBadge.removeAttribute('aria-label');
-            }
-        }
-
-        function simulateNewMessages() {
-            const randomMessageCount = Math.floor(Math.random() * 5); // 0 to 4 messages
-            updateMessageNotifications(randomMessageCount);
-        }
-
-        // --- Initial Load Logic (Modified to fetch image URLs) ---
-        window.addEventListener('load', async () => {
-            // Set initial loading states for user info
-            fullnameEl.innerHTML = '<span class="loading-text">Loading Full Name...</span>';
-            usernameEl.innerHTML = '<span class="loading-text">Loading Username...</span>';
-            emailEl.innerHTML = '<span class="loading-text">Loading Email...</span>';
-
-            // Simulate new messages on page load (for demonstration)
-            simulateNewMessages();
-
-            // Load user info from Supabase session
-            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-            if (sessionError) {
-                showMessage('Error getting session: ' + sessionError.message, 'error');
-                fullnameEl.textContent = 'Error Loading';
-                usernameEl.textContent = 'Error Loading';
-                emailEl.textContent = 'Error Loading';
-                return;
-            }
-
-            if (session && session.user) {
-                const user = session.user;
-                emailEl.textContent = user.email || 'N/A';
-
-                // Fetch user data from the 'users' table
-                const { data: userData, error: userError } = await supabase
-                    .from('users')
-                    .select('fullname, username')
-                    .eq('email', user.email)
-                    .single();
-
-                if (userError) {
-                    showMessage('Error fetching user profile: ' + userError.message, 'error');
-                    fullnameEl.textContent = 'Full Name Not Found';
-                    usernameEl.textContent = 'username_not_found';
-                } else if (userData) {
-                    fullnameEl.textContent = userData.fullname || 'Full Name';
-                    usernameEl.textContent = userData.username || 'username';
-                }
-
-                // NEW: Fetch profile and background image URLs from profile_images table
-                const { data: imageData, error: imageError } = await supabase
-                    .from('profile_images')
-                    .select('profile_picture_url, background_picture_url')
-                    .eq('id', user.id) // Assuming 'id' in profile_images links to auth.users(id)
-                    .single();
-
-                if (imageError && imageError.code !== 'PGRST116') { // PGRST116 means "no rows found"
-                    console.error('Error fetching image URLs:', imageError.message);
-                    showMessage('Error fetching image URLs: ' + imageError.message, 'error');
-                } else if (imageData) {
-                    displayImage('profileImage', imageData.profile_picture_url);
-                    displayImage('backgroundImage', imageData.background_picture_url);
-                }
-            } else {
-                showMessage('Not logged in. Redirecting to login...', 'error');
-                fullnameEl.textContent = 'Not Logged In';
-                usernameEl.textContent = 'Not Logged In';
-                emailEl.textContent = 'Not Logged In';
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
-            }
-        });
-</script>
+          // Clear previous user data and show loading states
+          otherUserFullnameEl.innerHTML = '<span class="loading-text">Loading Full Name...</span>';
+          otherUserUsernameEl.innerHTML = '<span class="loading-text">Loading Username...</span>';
+          otherUserEmailEl.innerHTML = '<span class="loading-text">Loading Email...</span>';
+          displayImage('profileImage', '', 'other'); // Clear previous profile image
+          displayImage('backgroundImage', '', 'other'); // Clear previous background image
+      
+          try {
+              // Fetch user data from the 'users' table
+              const { data: userData, error: userError } = await supabase
+                  .from('users')
+                  .select('fullname, username, email')
+                  .eq('id', userId)
+                  .single();
+      
+              if (userError) throw userError;
+      
+              // Update user info
+              otherUserFullnameEl.textContent = userData.fullname || 'Full Name Not Found';
+              otherUserUsernameEl.textContent = userData.username || 'username_not_found';
+              otherUserEmailEl.textContent = userData.email || 'Email Not Found';
+      
+              // Fetch profile and background image URLs
+              const { data: imageData, error: imageError } = await supabase
+                  .from('profile_images')
+                  .select('profile_picture_url, background_picture_url')
+                  .eq('id', userId)
+                  .single();
+      
+              if (imageError && imageError.code !== 'PGRST116') { // PGRST116 means "No rows found"
+                  console.error('Error fetching other user image URLs:', imageError.message);
+                  showMessage('Error fetching other user image URLs: ' + imageError.message, 'error');
+              } else if (imageData) {
+                  // Display images if URLs are available
+                  displayImage('profileImage', imageData.profile_picture_url, 'other');
+                  displayImage('backgroundImage', imageData.background_picture_url, 'other');
+              } else {
+                  // Explicitly set fallbacks if no image data is found
+                  displayImage('profileImage', '', 'other');
+                  displayImage('backgroundImage', '', 'other');
+              }
+      
+              // Set up message button for this user
+              messageOtherUserBtn.onclick = () => redirectToMessagePage(userId);
+      
+          } catch (error) {
+              console.error('Error viewing other user profile:', error.message);
+              showMessage('Error loading user profile: ' + error.message, 'error');
+              otherUserFullnameEl.textContent = 'Error Loading Profile';
+              otherUserUsernameEl.textContent = 'Error Loading Profile';
+              otherUserEmailEl.textContent = 'Error Loading Profile';
+          }
+      }
+  
+      function redirectToMessagePage(userId) {
+          if (userId) {
+              window.location.href = `messaging.html?user=${userId}`;
+          } else {
+              showMessage('Cannot initiate message: User ID is missing.', 'error');
+          }
+      }
+  
+      backToMyProfileBtn.addEventListener('click', () => {
+          otherUserProfileContainer.classList.remove('show');
+          otherUserProfileContainer.style.display = 'none';
+          myProfileContainer.classList.add('show');
+          myProfileContainer.style.display = 'block';
+          loadMyProfileData(currentUserId); // Reload my profile data
+      });
+  
+    
+      async function loadMyProfileData(userId) {
+          // Set initial loading states for user info
+          fullnameEl.innerHTML = '<span class="loading-text">Loading Full Name...</span>';
+          usernameEl.innerHTML = '<span class="loading-text">Loading Username...</span>';
+          emailEl.innerHTML = '<span class="loading-text">Loading Email...</span>';
+  
+          simulateNewMessages();
+  
+          if (!userId) {
+              const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+              if (sessionError) {
+                  showMessage('Error getting session: ' + sessionError.message, 'error');
+                  fullnameEl.textContent = 'Error Loading';
+                  usernameEl.textContent = 'Error Loading';
+                  emailEl.textContent = 'Error Loading';
+                  return;
+              }
+              if (session && session.user) {
+                  userId = session.user.id;
+                  currentUserId = userId; // Store the current user's ID
+              } else {
+                  showMessage('Not logged in. Redirecting to login...', 'error');
+                  fullnameEl.textContent = 'Not Logged In';
+                  usernameEl.textContent = 'Not Logged In';
+                  emailEl.textContent = 'Not Logged In';
+                  setTimeout(() => {
+                      window.location.href = 'login.html';
+                  }, 2000);
+                  return;
+              }
+          }
+  
+  
+          try {
+              const user = (await supabase.auth.getSession()).data.session.user; // Re-fetch user to ensure it's up-to-date
+              emailEl.textContent = user.email || 'N/A';
+  
+              const { data: userData, error: userError } = await supabase
+                  .from('users')
+                  .select('fullname, username')
+                  .eq('email', user.email)
+                  .single();
+  
+              if (userError) {
+                  throw userError;
+              } else if (userData) {
+                  fullnameEl.textContent = userData.fullname || 'Full Name';
+                  usernameEl.textContent = userData.username || 'username';
+              }
+  
+              const { data: imageData, error: imageError } = await supabase
+                  .from('profile_images')
+                  .select('profile_picture_url, background_picture_url')
+                  .eq('id', user.id)
+                  .single();
+  
+              if (imageError && imageError.code !== 'PGRST116') {
+                  console.error('Error fetching image URLs:', imageError.message);
+                  showMessage('Error fetching image URLs: ' + imageError.message, 'error');
+              } else if (imageData) {
+                  displayImage('profileImage', imageData.profile_picture_url, 'my');
+                  displayImage('backgroundImage', imageData.background_picture_url, 'my');
+              } else {
+                  // If no image data, explicitly set fallbacks for the current user profile
+                  displayImage('profileImage', '', 'my');
+                  displayImage('backgroundImage', '', 'my');
+              }
+          } catch (error) {
+              showMessage('Error loading profile: ' + error.message, 'error');
+              fullnameEl.textContent = 'Error Loading';
+              usernameEl.textContent = 'Error Loading';
+              emailEl.textContent = 'Error Loading';
+          }
+      }
+  
+      // Call loadMyProfileData on page load
+      window.addEventListener('load', () => loadMyProfileData(null));
+  
+  </script>
 
 </body>
 </html>
