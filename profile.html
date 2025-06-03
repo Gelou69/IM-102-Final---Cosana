@@ -5,552 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        :root {
-            --primary-blue: #007bff;
-            --dark-blue: #0056b3;
-            --light-blue: #e0f2ff;
-            --text-dark: #333;
-            --text-medium: #555;
-            --text-light: #777;
-            --bg-light: #f8f9fa;
-            --bg-white: #ffffff;
-            --border-light: #dee2e6;
-            --shadow-light: rgba(0, 0, 0, 0.1);
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-light);
-            margin: 0;
-            padding-top: 70px; /* Space for fixed navbar */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            color: var(--text-dark);
-        }
-
-        /* Navbar Styling */
-        .navbar {
-            width: 100%;
-            background-color: var(--primary-blue);
-            padding: 12px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 8px var(--shadow-light);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .navbar-left, .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-icon {
-            color: white;
-            font-size: 1.6rem;
-            margin: 0 18px;
-            cursor: pointer;
-            transition: color 0.3s ease, transform 0.2s ease;
-            position: relative;
-        }
-        .navbar-icon:hover,
-        .navbar-icon:focus {
-            color: #e0e0e0;
-            transform: translateY(-2px);
-            outline: none;
-        }
-
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #e74c3c;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border-radius: 50%;
-            padding: 2px 6px;
-            min-width: 18px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            display: none;
-        }
-
-        .navbar-brand {
-            color: white;
-            font-size: 2rem;
-            font-weight: 800;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: var(--bg-white);
-            min-width: 180px;
-            box-shadow: 0px 8px 20px 0px var(--shadow-light);
-            z-index: 1;
-            border-radius: 8px;
-            right: 0;
-            top: 45px;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .dropdown.show .dropdown-content {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .dropdown-content a {
-            color: var(--text-medium);
-            padding: 12px 18px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            transition: background-color 0.2s ease, color 0.2s ease;
-            font-size: 0.95rem;
-        }
-
-        .dropdown-content a:hover,
-        .dropdown-content a:focus {
-            background-color: var(--light-blue);
-            color: var(--primary-blue);
-            outline: none;
-        }
-
-
-        .profile-container {
-            background: var(--bg-white);
-            width: 95%;
-            max-width: 450px;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px var(--shadow-light);
-            margin-top: 30px;
-            overflow: hidden;
-            position: relative;
-            text-align: center;
-            font-size: 15px;
-        }
-
-
-        .background-banner {
-            width: 100%;
-            height: 160px;
-            background-color: #d1e7fd;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-
-
-        .bg-upload-label {
-            position: absolute;
-            right: 15px;
-            bottom: 15px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .bg-upload-label:hover,
-        .bg-upload-label:focus {
-            background: rgba(0,0,0,0.8);
-            transform: translateY(-2px);
-            outline: none;
-        }
-        .bg-upload-label i {
-            font-size: 1rem;
-        }
-        input#backgroundUpload {
-            display: none;
-        }
-
-
-        .profile-image-wrapper {
-            position: relative;
-            margin-top: -60px;
-            width: 130px;
-            height: 130px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 50%;
-            border: 6px solid var(--bg-white);
-            background-color: #cce5ff;
-            background-position: center;
-            background-size: cover;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-light);
-            font-size: 0.95rem;
-            font-style: italic;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-        }
-
-
-        .profile-upload-label {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            border-radius: 50%;
-            width: 35px; /* Larger icon area */
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-size: 1.1rem;
-        }
-        .profile-upload-label:hover,
-        .profile-upload-label:focus {
-            background: rgba(0,0,0,0.8);
-            transform: translateY(-2px);
-            outline: none;
-        }
-        input#profileUpload {
-            display: none;
-        }
-
-        /* User Info */
-        .user-info {
-            padding: 70px 25px 35px 25px;
-            text-align: center;
-        }
-        .user-info h2 {
-            margin: 0;
-            font-size: 28px;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-        .user-info p {
-            margin: 0;
-            color: var(--text-medium);
-            font-size: 15px;
-            margin-bottom: 12px;
-        }
-        .user-info p:last-child {
-            margin-bottom: 0;
-        }
-
-
-        .loading-text {
-            color: var(--text-light);
-            font-style: italic;
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { opacity: 0.7; }
-            to { opacity: 1; }
-        }
-
-
-        .message {
-            margin: 0 25px 25px 25px;
-            font-weight: 600;
-            text-align: center;
-            min-height: 20px;
-            padding: 10px;
-            border-radius: 8px;
-            transition: all 0.3s ease-in-out;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        .message.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .message.error {
-            color: #c0392b;
-            background-color: #fcebeb;
-            border: 1px solid #e63946;
-        }
-        .message.success {
-            color: #27ae60;
-            background-color: #eaf7ed;
-            border: 1px solid #2a9d8f;
-        }
-
-        /* --- Search Bar Styling --- */
-        .search-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            padding: 0 25px;
-            box-sizing: border-box;
-        }
-
-        .search-bar {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            margin-bottom: 20px; /* Space between search and profile container */
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 12px 20px 12px 45px;
-            border: 1px solid var(--border-light);
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            box-sizing: border-box; /* Include padding in width */
-        }
-
-        .search-bar input:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px var(--light-blue);
-        }
-
-        .search-bar .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-medium);
-            font-size: 1.1rem;
-        }
-
-        /* --- Search Results Styling --- */
-        .search-results-container {
-            width: 95%;
-            max-width: 450px;
-            background: var(--bg-white);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px var(--shadow-light);
-            padding: 15px;
-            margin-top: 10px; /* Adjust spacing from search bar */
-            max-height: 400px; /* Limit height for scrollability */
-            overflow-y: auto;
-            display: none; /* Hidden by default */
-            border: 1px solid var(--border-light);
-        }
-
-        .search-results-container.show {
-            display: block;
-        }
-
-        .search-result-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .search-result-item:hover {
-            background-color: var(--light-blue);
-            border-radius: 5px;
-        }
-
-        .search-result-item .profile-pic-small {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #ccc;
-            background-size: cover;
-            background-position: center;
-            margin-right: 10px;
-            flex-shrink: 0;
-        }
-
-        .search-result-item .user-details {
-            flex-grow: 1;
-        }
-
-        .search-result-item .user-details h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-        }
-
-        .search-result-item .user-details p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--text-medium);
-        }
-
-        .search-result-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-result-actions button {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .search-result-actions button:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-1px);
-        }
-
-        .no-results {
-            text-align: center;
-            color: var(--text-light);
-            padding: 20px;
-        }
-
-        /* --- View Other User Profile Styling --- */
-        .other-user-profile-container {
-            display: none; /* Hidden by default */
-            background: var(--bg-white);
-            width: 95%;
-            max-width: 450px;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px var(--shadow-light);
-            margin-top: 30px;
-            overflow: hidden;
-            position: relative;
-            text-align: center;
-            font-size: 15px;
-        }
-
-        .other-user-profile-container.show {
-            display: block;
-        }
-
-        .other-user-profile-container .background-banner {
-            height: 160px;
-            background-color: #d1e7fd;
-        }
-        .other-user-profile-container .profile-image-wrapper {
-            margin-top: -60px;
-            width: 130px;
-            height: 130px;
-        }
-        .other-user-profile-container .bg-upload-label,
-        .other-user-profile-container .profile-upload-label {
-            display: none; /* Hide upload buttons for other users' profiles */
-        }
-
-        .other-user-profile-container .user-info {
-            padding: 70px 25px 35px 25px;
-        }
-
-        .other-user-profile-actions {
-            padding-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .other-user-profile-actions button {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .other-user-profile-actions button:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-2px);
-        }
-
-        .back-to-my-profile {
-            background-color: #6c757d;
-        }
-
-        .back-to-my-profile:hover {
-            background-color: #5a6268;
-        }
-
-
-        @media (max-width: 500px) {
-            .navbar {
-                padding: 10px 15px;
-            }
-            .navbar-icon {
-                margin: 0 10px;
-                font-size: 1.4rem;
-            }
-            .navbar-brand {
-                font-size: 1.6rem;
-            }
-            .profile-container {
-                margin-top: 15px;
-                border-radius: 10px;
-            }
-            .background-banner {
-                height: 120px;
-            }
-            .profile-image-wrapper {
-                margin-top: -50px;
-                width: 100px;
-                height: 100px;
-                border-width: 4px;
-            }
-            .user-info {
-                padding: 55px 15px 25px 15px;
-            }
-            .user-info h2 {
-                font-size: 22px;
-            }
-            .user-info p {
-                font-size: 14px;
-            }
-            .bg-upload-label {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                gap: 5px;
-            }
-            .profile-upload-label {
-                width: 30px;
-                height: 30px;
-                font-size: 1rem;
-            }
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9O5SmXKp4YfRvH+8abtTE1Pi6jizoXZdgQp+s2MbkByE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="profile.css">
 </head>
 <body>
 
@@ -631,38 +88,80 @@
             <button id="backToMyProfileBtn" class="back-to-my-profile">Back to My Profile</button>
         </div>
     </div>
-
+    <div class="recent-chats-section">
+        <h3>Recent Chats</h3>
+        <div id="recentChatsList" class="recent-chats-list" aria-live="polite" aria-relevant="additions removals">
+            <p class="text-center text-muted p-3">Loading recent chats...</p>
+        </div>
+    </div>
+    <div class="modal fade" id="recentChatModal" tabindex="-1" aria-labelledby="recentChatModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recentChatModalLabel">Chat with <span id="modalChatUsername"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="messages-list-modal" id="messagesListModal" aria-live="polite" aria-relevant="additions">
+                    </div>
+                    <div class="mt-3">
+                        <label for="modalMessageContent" class="form-label">
+                            <span class="material-symbols-outlined">edit_note</span> Compose Message:
+                        </label>
+                        <textarea id="modalMessageContent" class="form-control form-control-custom" placeholder="Type your message here..." aria-multiline="true"></textarea>
+                        <button id="sendModalMessageBtn" type="button" class="btn btn-custom mt-2" aria-label="Send text message">
+                            <span class="material-symbols-outlined">send</span> Send Message
+                        </button>
+                    </div>
+                    <div class="mt-3">
+                        <label for="modalFileInput" class="form-label">
+                            <span class="material-symbols-outlined">attach_file</span> Attach File/Image:
+                        </label>
+                        <input type="file" id="modalFileInput" class="form-control form-control-custom" aria-label="Attach file or image">
+                        <button id="sendModalFileBtn" type="button" class="btn btn-custom mt-2" aria-label="Send file">
+                            <span class="material-symbols-outlined">upload_file</span> Send File
+                        </button>
+                    </div>
+                    <div id="modalStatusMessage" role="alert" aria-live="assertive"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="message" id="message" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    <div class="message" id="message" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script type="module">
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  
+ 
       const supabaseUrl = 'https://tjmaegohzduvalgreqan.supabase.co';
       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqbWFlZ29oemR1dmFsZ3JlcWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDc1MDUsImV4cCI6MjA2MzU4MzUwNX0.DBZBXfJg0Wudqw7o6q0GLIaZDcpyVWFFgjuXjeJj65c';
       const supabase = createClient(supabaseUrl, supabaseKey);
-  
+ 
       const fullnameEl = document.getElementById('fullname');
       const usernameEl = document.getElementById('username');
       const emailEl = document.getElementById('email');
       const messageEl = document.getElementById('message');
-  
+ 
       const backgroundBanner = document.getElementById('backgroundBanner');
       const profileImageWrapper = document.getElementById('profileImageWrapper');
-  
+ 
       const backgroundUploadInput = document.getElementById('backgroundUpload');
       const profileUploadInput = document.getElementById('profileUpload');
-  
+ 
       const messageNotificationBadge = document.getElementById('messageNotificationBadge');
-  
+ 
       const settingsIcon = document.getElementById('settingsIcon');
       const settingsDropdown = document.getElementById('settingsDropdown');
       const dropdownLogoutButton = document.getElementById('dropdownLogout');
-  
+ 
       // NEW: Search bar elements
       const userSearchInput = document.getElementById('userSearchInput');
       const searchResultsContainer = document.getElementById('searchResultsContainer');
       const myProfileContainer = document.getElementById('myProfileContainer');
       const otherUserProfileContainer = document.getElementById('otherUserProfileContainer');
-  
+ 
       // NEW: Other user profile elements
       const otherUserBackgroundBanner = document.getElementById('otherUserBackgroundBanner');
       const otherUserProfileImageWrapper = document.getElementById('otherUserProfileImageWrapper');
@@ -671,9 +170,9 @@
       const otherUserEmailEl = document.getElementById('otherUserEmail');
       const messageOtherUserBtn = document.getElementById('messageOtherUserBtn');
       const backToMyProfileBtn = document.getElementById('backToMyProfileBtn');
-  
+ 
       let currentUserId = null; // To store the currently logged-in user's ID
-  
+ 
       settingsIcon.addEventListener('click', () => {
           const isShown = settingsDropdown.parentElement.classList.toggle('show');
           settingsIcon.setAttribute('aria-expanded', isShown);
@@ -681,7 +180,7 @@
               settingsDropdown.querySelector('a')?.focus();
           }
       });
-  
+ 
       settingsIcon.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
@@ -690,7 +189,7 @@
           if (settingsDropdown.parentElement.classList.contains('show')) {
               const focusableElements = Array.from(settingsDropdown.querySelectorAll('a[role="menuitem"]'));
               const focusedIndex = focusableElements.indexOf(document.activeElement);
-  
+ 
               if (e.key === 'ArrowDown') {
                   e.preventDefault();
                   if (focusedIndex === -1 || focusedIndex === focusableElements.length - 1) {
@@ -713,8 +212,8 @@
               }
           }
       });
-  
-  
+ 
+ 
       window.addEventListener('click', (event) => {
           if (!event.target.matches('#settingsIcon') && !event.target.closest('.dropdown')) {
               const dropdowns = document.getElementsByClassName('dropdown-content');
@@ -731,8 +230,8 @@
               searchResultsContainer.classList.remove('show');
           }
       });
-  
-  
+ 
+ 
       dropdownLogoutButton.addEventListener('click', async (e) => {
           e.preventDefault();
           const { error } = await supabase.auth.signOut();
@@ -747,7 +246,7 @@
               }, 1500);
           }
       });
-  
+ 
       // --- Helper Functions ---
       function showMessage(text, type) {
           messageEl.textContent = text;
@@ -760,19 +259,19 @@
               }, 300);
           }, 3000);
       }
-  
+ 
       const PROFILE_BUCKET_NAME = 'profile-images';
       async function uploadImageAndSaveUrl(file, imageType, userId) {
           if (!userId) {
               showMessage('User not authenticated for image upload.', 'error');
               return;
           }
-  
+ 
           const fileName = `${imageType}-${userId}-${Date.now()}.${file.name.split('.').pop()}`;
           const filePath = `${userId}/${fileName}`;
-  
+ 
           showMessage(`Uploading ${imageType} image...`, 'success');
-  
+ 
           try {
               const { data: uploadData, error: uploadError } = await supabase.storage
                   .from(PROFILE_BUCKET_NAME)
@@ -780,17 +279,17 @@
                       cacheControl: '3600',
                       upsert: true
                   });
-  
+ 
               if (uploadError) {
                   throw uploadError;
               }
-  
+ 
               const { data: publicUrlData } = supabase.storage
                   .from(PROFILE_BUCKET_NAME)
                   .getPublicUrl(filePath);
-  
+ 
               const imageUrl = publicUrlData.publicUrl;
-  
+ 
               const updateColumn = imageType === 'profile' ? 'profile_picture_url' : 'background_picture_url';
               const { error: dbError } = await supabase
                   .from('profile_images')
@@ -798,25 +297,25 @@
                       { id: userId, [updateColumn]: imageUrl },
                       { onConflict: 'id', ignoreDuplicates: false }
                   );
-  
+ 
               if (dbError) {
                   throw dbError;
               }
-  
+ 
               displayImage(imageType === 'profile' ? 'profileImage' : 'backgroundImage', imageUrl, 'my'); // 'my' indicates it's for the current user
               showMessage(`${imageType} image updated successfully!`, 'success');
-  
+ 
           } catch (error) {
               console.error(`Error uploading ${imageType} image:`, error.message);
               showMessage(`Error uploading ${imageType} image: ${error.message}`, 'error');
           }
       }
-  
+ 
       // Helper: Display image from URL (modified to handle different target elements)
       function displayImage(key, url, target = 'my') {
           let wrapperElement;
           let fallbackTextElement;
-  
+ 
           if (target === 'my') {
               wrapperElement = (key === 'profileImage') ? profileImageWrapper : backgroundBanner;
               fallbackTextElement = profileImageWrapper.querySelector('.profile-image-fallback-text');
@@ -824,7 +323,7 @@
               wrapperElement = (key === 'profileImage') ? otherUserProfileImageWrapper : otherUserBackgroundBanner;
               fallbackTextElement = otherUserProfileImageWrapper.querySelector('.profile-image-fallback-text');
           }
-  
+ 
           if (url) {
               wrapperElement.style.backgroundImage = `url(${url})`;
               wrapperElement.style.backgroundSize = 'cover';
@@ -839,7 +338,7 @@
               }
           }
       }
-  
+ 
       // --- Image Upload Event Listeners ---
       profileUploadInput.addEventListener('change', async (e) => {
           const user = (await supabase.auth.getSession()).data.session?.user;
@@ -847,7 +346,7 @@
               showMessage('Please log in to upload images.', 'error');
               return;
           }
-  
+ 
           if (e.target.files && e.target.files[0]) {
               const file = e.target.files[0];
               if (file.type.startsWith('image/')) {
@@ -857,14 +356,14 @@
               }
           }
       });
-  
+ 
       backgroundUploadInput.addEventListener('change', async (e) => {
           const user = (await supabase.auth.getSession()).data.session?.user;
           if (!user) {
               showMessage('Please log in to upload images.', 'error');
               return;
           }
-  
+ 
           if (e.target.files && e.target.files[0]) {
               const file = e.target.files[0];
               if (file.type.startsWith('image/')) {
@@ -874,7 +373,7 @@
               }
           }
       });
-  
+ 
       // --- Notification Badge Functionality ---
       function updateMessageNotifications(count) {
           if (count > 0) {
@@ -887,20 +386,20 @@
               messageNotificationBadge.removeAttribute('aria-label');
           }
       }
-  
+ 
       function simulateNewMessages() {
           const randomMessageCount = Math.floor(Math.random() * 5); // 0 to 4 messages
           updateMessageNotifications(randomMessageCount);
       }
-  
+ 
       
     
-  
+ 
       let searchTimeout;
       userSearchInput.addEventListener('input', () => {
           clearTimeout(searchTimeout);
           const query = userSearchInput.value.trim();
-  
+ 
           if (query.length > 0) {
               searchTimeout = setTimeout(() => searchUsers(query), 500); // Debounce search
           } else {
@@ -908,7 +407,7 @@
               searchResultsContainer.classList.remove('show');
           }
       });
-  
+ 
       async function searchUsers(query) {
           showMessage('Searching users...', 'success');
           try {
@@ -916,9 +415,9 @@
                   .from('users')
                   .select('id, username, fullname')
                   .or(`username.ilike.%${query}%,fullname.ilike.%${query}%`); // Case-insensitive search
-  
+ 
               if (error) throw error;
-  
+ 
               if (users.length > 0) {
                   displaySearchResults(users);
                   showMessage(`Found ${users.length} user(s).`, 'success');
@@ -934,7 +433,7 @@
               searchResultsContainer.classList.add('show');
           }
       }
-  
+ 
       async function displaySearchResults(users) {
           searchResultsContainer.innerHTML = ''; // Clear previous results
           if (users.length === 0) {
@@ -942,7 +441,7 @@
               searchResultsContainer.classList.add('show');
               return;
           }
-  
+ 
           for (const user of users) {
               // Fetch profile image for each user
               const { data: imageData, error: imageError } = await supabase
@@ -950,12 +449,12 @@
                   .select('profile_picture_url')
                   .eq('id', user.id)
                   .single();
-  
+ 
               const profilePicUrl = imageData?.profile_picture_url || '';
-  
+ 
               const userItem = document.createElement('div');
               userItem.classList.add('search-result-item');
-  
+ 
               let profileImageHtml = '';
               if (profilePicUrl) {
                   profileImageHtml = `<div class="profile-pic-small" style="background-image: url('${profilePicUrl}')"></div>`;
@@ -968,7 +467,7 @@
                       </div>
                   `;
               }
-  
+ 
               userItem.innerHTML = `
                   ${profileImageHtml}
                   <div class="user-details">
@@ -981,16 +480,16 @@
                   </div>
               `;
               searchResultsContainer.appendChild(userItem);
-  
+ 
               // Add event listeners to the new buttons
               userItem.querySelector('.view-profile-btn').addEventListener('click', () => viewOtherUserProfile(user.id));
               userItem.querySelector('.message-user-btn').addEventListener('click', () => redirectToMessagePage(user.id));
           }
           searchResultsContainer.classList.add('show');
       }
-  
+ 
 
-  
+ 
       async function viewOtherUserProfile(userId) {
           // Hide current user's profile and search results
           myProfileContainer.classList.remove('show');
@@ -1055,7 +554,7 @@
               otherUserEmailEl.textContent = 'Error Loading Profile';
           }
       }
-  
+ 
       function redirectToMessagePage(userId) {
           if (userId) {
               window.location.href = `messaging.html?user=${userId}`;
@@ -1063,7 +562,7 @@
               showMessage('Cannot initiate message: User ID is missing.', 'error');
           }
       }
-  
+ 
       backToMyProfileBtn.addEventListener('click', () => {
           otherUserProfileContainer.classList.remove('show');
           otherUserProfileContainer.style.display = 'none';
@@ -1071,16 +570,16 @@
           myProfileContainer.style.display = 'block';
           loadMyProfileData(currentUserId); // Reload my profile data
       });
-  
+ 
     
       async function loadMyProfileData(userId) {
           // Set initial loading states for user info
           fullnameEl.innerHTML = '<span class="loading-text">Loading Full Name...</span>';
           usernameEl.innerHTML = '<span class="loading-text">Loading Username...</span>';
           emailEl.innerHTML = '<span class="loading-text">Loading Email...</span>';
-  
+ 
           simulateNewMessages();
-  
+ 
           if (!userId) {
               const { data: { session }, error: sessionError } = await supabase.auth.getSession();
               if (sessionError) {
@@ -1104,31 +603,31 @@
                   return;
               }
           }
-  
-  
+ 
+ 
           try {
               const user = (await supabase.auth.getSession()).data.session.user; // Re-fetch user to ensure it's up-to-date
               emailEl.textContent = user.email || 'N/A';
-  
+ 
               const { data: userData, error: userError } = await supabase
                   .from('users')
                   .select('fullname, username')
                   .eq('email', user.email)
                   .single();
-  
+ 
               if (userError) {
                   throw userError;
               } else if (userData) {
                   fullnameEl.textContent = userData.fullname || 'Full Name';
                   usernameEl.textContent = userData.username || 'username';
               }
-  
+ 
               const { data: imageData, error: imageError } = await supabase
                   .from('profile_images')
                   .select('profile_picture_url, background_picture_url')
                   .eq('id', user.id)
                   .single();
-  
+ 
               if (imageError && imageError.code !== 'PGRST116') {
                   console.error('Error fetching image URLs:', imageError.message);
                   showMessage('Error fetching image URLs: ' + imageError.message, 'error');
@@ -1147,10 +646,421 @@
               emailEl.textContent = 'Error Loading';
           }
       }
-  
-      // Call loadMyProfileData on page load
+// Initialize Supabase client (assuming 'supabase' is globally available)
+// const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');
+
+const recentChatsList = document.getElementById('recentChatsList');
+const recentChatModalElement = document.getElementById('recentChatModal'); // Get the DOM element
+const recentChatModal = new bootstrap.Modal(recentChatModalElement); // Initialize Bootstrap Modal
+const modalChatUsername = document.getElementById('modalChatUsername');
+const messagesListModal = document.getElementById('messagesListModal');
+const modalMessageContentInput = document.getElementById('modalMessageContent');
+const sendModalMessageBtn = document.getElementById('sendModalMessageBtn');
+const modalFileInput = document.getElementById('modalFileInput');
+const sendModalFileBtn = document.getElementById('sendModalFileBtn');
+const modalStatusMessage = document.getElementById('modalStatusMessage');
+let currentUser = null;
+let selectedUserId = null;
+
+function showStatus(text, isError = false) {
+    const targetStatusMessage = modalStatusMessage;
+    if (!targetStatusMessage) return;
+    targetStatusMessage.textContent = text;
+    targetStatusMessage.className = `statusMessage ${isError ? 'error' : 'success'}`;
+    targetStatusMessage.style.animation = 'none';
+    void targetStatusMessage.offsetWidth; // Trigger reflow
+    targetStatusMessage.style.animation = 'fadeIn 0.5s forwards';
+    if (!isError) {
+        setTimeout(() => {
+            targetStatusMessage.style.animation = 'none';
+            targetStatusMessage.textContent = '';
+            targetStatusMessage.className = '';
+        }, 3000);
+    }
+}
+
+async function getCurrentUser() {
+    const {
+        data: { session },
+        error,
+    } = await supabase.auth.getSession();
+    if (error || !session) {
+        alert('You must be logged in to use messaging.');
+        window.location.href = 'login.html';
+        return null;
+    }
+    const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id, username')
+        .eq('email', session.user.email)
+        .single();
+
+    if (userError || !userData) {
+        alert('Error fetching user profile.');
+        window.location.href = 'login.html';
+        return null;
+    }
+    return userData;
+}
+
+async function fetchMessages() {
+    const currentMessagesList = messagesListModal;
+    if (!currentMessagesList) return;
+
+    if (!selectedUserId) {
+        currentMessagesList.innerHTML = '<p class="text-center text-muted p-3">Select a user to see messages.</p>';
+        return;
+    }
+    if (!currentUser) {
+        currentMessagesList.innerHTML = '<p class="text-center text-muted p-3">Loading user info...</p>';
+        return;
+    }
+    const senderId = parseInt(currentUser.id, 10);
+    const receiverId = parseInt(selectedUserId, 10);
+
+    document.querySelectorAll('.chat-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    const activeChatItem = document.querySelector(`.chat-item[data-userid="${selectedUserId}"]`);
+    if (activeChatItem) {
+        activeChatItem.classList.add('active');
+    }
+    const { data, error } = await supabase
+        .from('messages')
+        .select(`
+            id,
+            content,
+            created_at,
+            sender:sender_id (id, username),
+            receiver:receiver_id (id, username),
+            reply_to,
+            message_attachments (file_url, file_type)
+        `)
+        .or(
+            `and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`
+        )
+        .order('created_at', { ascending: true });
+
+    if (error) {
+        currentMessagesList.innerHTML = `<p class="error text-center">Error loading messages: ${error.message}</p>`;
+        console.error('Error fetching messages:', error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        currentMessagesList.innerHTML = '<p class="text-center text-muted p-3">No messages yet. Start the conversation!</p>';
+        return;
+    }
+
+    currentMessagesList.innerHTML = '';
+    data.forEach((msg) => {
+        const div = document.createElement('div');
+        const isSender = msg.sender?.id === senderId;
+        div.className = `message-item ${isSender ? 'sent' : 'received'}`;
+
+        const senderName = isSender ? 'You' : msg.sender?.username || 'Unknown';
+        const date = new Date(msg.created_at).toLocaleString();
+
+        let replyText = '';
+        if (msg.reply_to) {
+            replyText = `<div class="reply-info">Replying to message #${msg.reply_to}</div>`;
+        }
+
+        let messageContentHtml = `<p class="message-content">${msg.content || ''}</p>`;
+        if (msg.message_attachments && msg.message_attachments.length > 0) {
+            msg.message_attachments.forEach((attachment) => {
+                if (attachment.file_type && attachment.file_type.startsWith('image/')) {
+                    messageContentHtml += `<div class="message-attachment"><img src="${attachment.file_url}" alt="Attached Image"></div>`;
+                } else {
+                    const fileName = attachment.file_url.substring(attachment.file_url.lastIndexOf('/') + 1);
+                    messageContentHtml += `<div class="message-attachment"><a href="${attachment.file_url}" target="_blank" download="${fileName}"><span class="material-symbols-outlined">download</span> Download ${fileName}</a></div>`;
+                }
+            });
+        }
+
+        div.innerHTML = `
+            <div class="message-header">
+                <span>${senderName}</span>
+                <small>${date}</small>
+            </div>
+            ${replyText}
+            ${messageContentHtml}
+        `;
+        currentMessagesList.appendChild(div);
+    });
+
+    currentMessagesList.scrollTop = currentMessagesList.scrollHeight;
+    markMessagesAsRead(receiverId);
+}
+
+async function sendMessage() {
+    if (!currentUser) {
+        showStatus('User data not loaded. Please refresh the page.', true);
+        return;
+    }
+    const contentInput = modalMessageContentInput;
+    if (!contentInput) return;
+    const content = contentInput.value.trim();
+
+    if (!content) {
+        showStatus('Please enter a message.', true);
+        return;
+    }
+    if (!selectedUserId) {
+        showStatus('Please select a user to send a message.', true);
+        return;
+    }
+    const senderId = parseInt(currentUser.id, 10);
+    const receiverId = parseInt(selectedUserId, 10);
+
+    const { data, error } = await supabase
+        .from('messages')
+        .insert([
+            {
+                sender_id: senderId,
+                receiver_id: receiverId,
+                content,
+                created_at: new Date().toISOString(),
+                is_read: false,
+            },
+        ])
+        .select('id')
+        .single();
+
+    if (error) {
+        showStatus('Failed to send message: ' + error.message, true);
+        console.error('Error sending message:', error);
+        return;
+    }
+
+    contentInput.value = '';
+    await fetchMessages();
+    await fetchRecentChats();
+    showStatus('Message sent!', false);
+}
+
+async function sendFile() {
+    if (!currentUser) {
+        showStatus('User data not loaded. Please refresh the page.', true);
+        return;
+    }
+    if (!selectedUserId) {
+        showStatus('Please select a user to send a file.', true);
+        return;
+    }
+    const fileInputElem = modalFileInput;
+    if (!fileInputElem) return;
+    const file = fileInputElem.files[0];
+
+    if (!file) {
+        showStatus('Please select a file to send.', true);
+        return;
+    }
+    showStatus('Uploading file...', false);
+
+    const senderId = parseInt(currentUser.id, 10);
+    const receiverId = parseInt(selectedUserId, 10);
+
+    const { data: messageData, error: messageError } = await supabase
+        .from('messages')
+        .insert([
+            {
+                sender_id: senderId,
+                receiver_id: receiverId,
+                content: `(File: ${file.name})`,
+                created_at: new Date().toISOString(),
+                is_read: false,
+            },
+        ])
+        .select('id')
+        .single();
+
+    if (messageError) {
+        showStatus('Failed to create message entry for file: ' + messageError.message, true);
+        console.error('Error creating message entry for file:', messageError);
+        return;
+    }
+    const messageId = messageData.id;
+
+    const fileExtension = file.name.split('.').pop();
+    const uniqueFileName = `msg_${messageId}_${Date.now()}.${fileExtension}`;
+    const bucketName = 'message-attachments';
+    const { data: uploadData, error: uploadError } = await supabase.storage
+        .from(bucketName)
+        .upload(uniqueFileName, file);
+
+    if (uploadError) {
+        showStatus('File upload failed: ' + uploadError.message, true);
+        console.error('File upload error:', uploadError);
+        await supabase.from('messages').delete().eq('id', messageId); // Clean up message entry
+        return;
+    }
+    const { data: publicUrlData, error: publicUrlError } = supabase.storage
+        .from(bucketName)
+        .getPublicUrl(uniqueFileName);
+
+    if (publicUrlError) {
+        showStatus('Failed to get public URL: ' + publicUrlError.message, true);
+        console.error('Public URL error:', publicUrlError);
+        return;
+    }
+    const publicUrl = publicUrlData.publicUrl;
+    const { error: attachmentError } = await supabase
+        .from('message_attachments')
+        .insert([
+            {
+                messages_id: messageId,
+                file_url: publicUrl,
+                file_type: file.type,
+                uploaded_at: new Date().toISOString(),
+            },
+        ]);
+    if (attachmentError) {
+        showStatus('Failed to save attachment info: ' + attachmentError.message, true);
+        console.error('Attachment insert error:', attachmentError);
+        return;
+    }
+    showStatus('File sent successfully!', false);
+    fileInputElem.value = '';
+    await fetchMessages();
+    await fetchRecentChats();
+}
+
+function subscribeToNewMessages() {
+    supabase
+        .channel('public:messages')
+        .on(
+            'postgres_changes',
+            { event: 'INSERT', schema: 'public', table: 'messages' },
+            (payload) => {
+                if (
+                    currentUser &&
+                    selectedUserId &&
+                    (payload.new.sender_id === currentUser.id || payload.new.receiver_id === currentUser.id) &&
+                    (payload.new.sender_id === parseInt(selectedUserId, 10) || payload.new.receiver_id === parseInt(selectedUserId, 10))
+                ) {
+                    fetchMessages();
+                }
+                fetchRecentChats();
+            }
+        )
+        .subscribe();
+}
+
+async function fetchRecentChats() {
+    if (!currentUser) return;
+    const userId = parseInt(currentUser.id, 10);
+
+    const { data, error } = await supabase
+        .from('messages')
+        .select('sender_id, receiver_id, created_at')
+        .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
+        .order('created_at', { ascending: false });
+    if (error) {
+        console.error('Error fetching recent chats:', error);
+        return;
+    }
+    const recentConversations = new Map();
+    data.forEach((msg) => {
+        const partnerId = msg.sender_id === userId ? msg.receiver_id : msg.sender_id;
+        if (!recentConversations.has(partnerId) || new Date(msg.created_at) > new Date(recentConversations.get(partnerId).created_at)) {
+            recentConversations.set(partnerId, msg);
+        }
+    });
+    const partnerIds = Array.from(recentConversations.keys());
+    if (partnerIds.length === 0) {
+        recentChatsList.innerHTML = '<p class="text-center text-muted p-3">No recent chats</p>';
+        return;
+    }
+    const { data: users, error: usersError } = await supabase
+        .from('users')
+        .select('id, username')
+        .in('id', partnerIds);
+    if (usersError) {
+        console.error('Error fetching chat users:', usersError);
+        return;
+    }
+    recentChatsList.innerHTML = '';
+    for (const user of users) {
+        const div = document.createElement('div');
+        div.className = 'chat-item';
+        div.dataset.userid = user.id;
+        const unreadCount = await getUnreadMessageCount(user.id);
+        const isActive = (selectedUserId && parseInt(selectedUserId, 10) === user.id) ? ' active' : '';
+        div.className = `chat-item${isActive}`;
+        div.innerHTML = `
+            <span class="chat-username">
+                <span class="material-symbols-outlined">account_circle</span>
+                ${user.username}
+            </span>
+            <span class="unread-badge">${unreadCount > 0 ? unreadCount : ''}</span>
+        `;
+        div.addEventListener('click', async () => {
+            // Only update and show if the clicked user is different or modal is hidden
+            if (selectedUserId !== user.id || !recentChatModal._isShown) {
+                selectedUserId = user.id;
+                modalChatUsername.textContent = user.username;
+                await fetchMessages();
+                recentChatModal.show(); // This line shows the modal
+                
+                document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+                div.classList.add('active');
+            }
+        });
+        recentChatsList.appendChild(div);
+    }
+}
+
+async function getUnreadMessageCount(senderId) {
+    if (!currentUser) return 0;
+    const { count, error } = await supabase
+        .from('messages')
+        .select('id', { count: 'exact' })
+        .eq('sender_id', senderId)
+        .eq('receiver_id', currentUser.id)
+        .eq('is_read', false);
+    if (error) {
+        console.error('Error fetching unread count:', error);
+        return 0;
+    }
+    return count || 0;
+}
+
+async function markMessagesAsRead(senderId) {
+    if (!currentUser || !senderId) return;
+    const { error } = await supabase
+        .from('messages')
+        .update({ is_read: true })
+        .eq('sender_id', senderId)
+        .eq('receiver_id', currentUser.id)
+        .eq('is_read', false);
+    if (error) {
+        console.error('Error marking messages as read:', error);
+    } else {
+        const badge = document.querySelector(`.chat-item[data-userid="${senderId}"] .unread-badge`);
+        if (badge) {
+            badge.textContent = '';
+        }
+    }
+}
+
+sendModalMessageBtn.addEventListener('click', () => sendMessage());
+sendModalFileBtn.addEventListener('click', () => sendFile());
+
+document.getElementById('recentChatModal').addEventListener('hidden.bs.modal', async () => {
+    selectedUserId = null;
+    await fetchRecentChats();
+});
+
+window.addEventListener('DOMContentLoaded', async () => {
+    currentUser = await getCurrentUser();
+    if (currentUser) {
+        await fetchRecentChats();
+        subscribeToNewMessages();
+    }
+});
       window.addEventListener('load', () => loadMyProfileData(null));
-  
+ 
   </script>
 
 </body>
